@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ROI — Turf Odor Service Upsell</title>
+<style>
+:root{--green:#136a40;--yellow:#ffc700;--cream:#fffbf0;--ink:#143024}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+.wrap{max-width:1000px;margin:0 auto;padding:20px}
+.card{background:#fff;border:1px solid #e7eee7;border-radius:16px;padding:16px;box-shadow:0 6px 24px rgba(20,48,36,.06)}
+h1{margin:0 0 6px;font-size:22px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row{display:grid;grid-template-columns:1fr 160px;gap:8px;align-items:center}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.kpi div{background:#f8fbf8;border:1px solid #e7eee7;border-radius:12px;padding:10px;text-align:center}
+.btn{padding:8px 12px;border-radius:10px;background:var(--green);color:#fff;border:0;cursor:pointer}
+</style>
+<div class="wrap">
+  <h1>Pet Waste Removal ROI — Dozzle Turf Odor Upsell</h1>
+  <div class="card">
+    <div class="grid">
+      <div class="row"><label>Active scoop customers</label><input id="cust" type="number" value="120" min="0"></div>
+      <div class="row"><label>Upsell take-rate (%)</label><input id="take" type="number" value="25" min="0" max="100"></div>
+      <div class="row"><label>Service price / visit ($)</label><input id="price" type="number" value="19" step="0.01"></div>
+      <div class="row"><label>Visits per month</label><input id="visits" type="number" value="4" min="0"></div>
+      <div class="row"><label>FoamZyme oz / visit</label><input id="oz" type="number" value="1.2" step="0.1"></div>
+      <div class="row"><label>FoamZyme cost / bottle ($)</label><input id="cogs" type="number" value="5.10" step="0.01"></div>
+      <div class="row"><label>Fulfillment/consumables per bottle ($)</label><input id="ful" type="number" value="4.00" step="0.01"></div>
+      <div class="row"><label>Tech time added (min)</label><input id="mins" type="number" value="0" min="0"></div>
+      <div class="row"><label>Tech wage ($/hr)</label><input id="wage" type="number" value="22" step="0.01"></div>
+      <div class="row"><label>Bottle size (oz)</label><input id="size" type="number" value="32" min="1"></div>
+    </div>
+    <div class="kpi" id="out"></div>
+    <button class="btn" onclick="window.open('https://www.dozzlepets.com/pages/turf-odor-service','_blank')">See service page</button>
+  </div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+function calc(){
+  const cust=+$('cust').value, take=+$('take').value/100, price=+$('price').value;
+  const visits=+$('visits').value, oz=+$('oz').value, cogs=+$('cogs').value, ful=+$('ful').value;
+  const mins=+$('mins').value, wage=+$('wage').value, size=+$('size').value;
+  const clients = cust*take;
+  const jobsMo = clients*visits;
+  const revMo = jobsMo*price, revYr = revMo*12;
+
+  const bottlesPerJob = oz/size;
+  const bottlesYr = bottlesPerJob*jobsMo*12;
+  const prodCostYr = bottlesYr*(cogs+ful);
+
+  const laborYr = (mins/60)*wage*jobsMo*12;
+  const grossProfitYr = revYr - prodCostYr - laborYr;
+  const margin = revYr? (grossProfitYr/revYr*100):0;
+
+  const f=(n,d=0)=>Number(n).toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d});
+  $('out').innerHTML=`
+    <div><div><b>${f(clients,0)}</b></div><small>Clients on upsell</small></div>
+    <div><div><b>${f(jobsMo,0)}</b></div><small>Upsell jobs / month</small></div>
+    <div><div><b>$${f(revYr,0)}</b></div><small>Revenue / year</small></div>
+    <div><div><b>$${f(grossProfitYr,0)}</b></div><small>Gross profit / year</small></div>
+    <div><div><b>${f((bottlesYr),1)}</b></div><small>Bottles FoamZyme / year</small></div>
+    <div><div><b>$${f(prodCostYr,0)}</b></div><small>Product+fulfillment cost / year</small></div>
+    <div><div><b>$${f(laborYr,0)}</b></div><small>Added labor cost / year</small></div>
+    <div><div><b>${f(margin,1)}%</b></div><small>Gross margin</small></div>
+  `;
+}
+['cust','take','price','visits','oz','cogs','ful','mins','wage','size'].forEach(id=>$(id).addEventListener('input',calc)); calc();
+</script>
