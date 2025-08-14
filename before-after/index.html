@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Before/After — Dozzle vs Hose-End</title>
+<style>
+:root{--green:#136a40;--yellow:#ffc700;--cream:#fffbf0;--ink:#143024}
+*{box-sizing:border-box} body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.4 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+.wrap{max-width:1000px;margin:0 auto;padding:20px}
+.card{background:#fff;border:1px solid #e7eee7;border-radius:16px;padding:16px;box-shadow:0 6px 24px rgba(20,48,36,.06)}
+h1{margin:0 0 6px;font-size:22px}.sub{opacity:.8;margin:0 0 12px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
+.viewer{position:relative;max-width:900px;margin:10px auto;border-radius:16px;overflow:hidden;border:1px solid #e7eee7;touch-action:none}
+.viewer img{display:block;width:100%;height:auto}
+.clip{position:absolute;top:0;left:0;height:100%;overflow:hidden;border-right:3px solid var(--yellow)}
+.handle{position:absolute;top:0;transform:translateX(-50%);height:100%;width:0}
+.handle:after{content:"⇔";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--yellow);color:#000;padding:6px 10px;border-radius:999px;font-weight:700}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input[type="range"]{width:100%}
+label{font-weight:600}
+</style>
+<div class="wrap">
+  <h1>Setup Time: Dozzle (0 sec) vs Hose-End (10 min)</h1>
+  <p class="sub">Drag the handle. Swap images or turf type. Export a GIF later for Amazon A+.</p>
+  <div class="card">
+    <div class="row">
+      <div><label>Before URL</label><input id="beforeUrl" placeholder="Before image URL" style="width:100%;padding:8px;border:1px solid #dfe7df;border-radius:10px"></div>
+      <div><label>After URL</label><input id="afterUrl" placeholder="After image URL" style="width:100%;padding:8px;border:1px solid #dfe7df;border-radius:10px"></div>
+    </div>
+    <div class="controls">
+      <div><label>Preset turf</label>
+        <select id="preset" style="width:100%;padding:8px;border:1px solid #dfe7df;border-radius:10px">
+          <option value="turf">Artificial turf</option>
+          <option value="stone">Stone patio</option>
+          <option value="concrete">Concrete</option>
+        </select>
+      </div>
+      <div><label>Split</label><input id="slider" type="range" min="0" max="100" value="50"></div>
+    </div>
+
+    <div class="viewer" id="viewer">
+      <img id="after" alt="After">
+      <div class="clip" id="clip"><img id="before" alt="Before"></div>
+      <div class="handle" id="handle" style="left:50%"></div>
+    </div>
+  </div>
+</div>
+<script>
+const sets={
+  turf:{b:"https://images.unsplash.com/photo-1550355291-bbee04a92027?w=1600&auto=format&fit=crop",
+        a:"https://images.unsplash.com/photo-1550355155-4f1e4cbd541b?w=1600&auto=format&fit=crop"},
+  stone:{b:"https://images.unsplash.com/photo-1523419409543-a7ea2e845d44?w=1600&auto=format&fit=crop",
+         a:"https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1600&auto=format&fit=crop"},
+  concrete:{b:"https://images.unsplash.com/photo-1483721310020-03333e577078?w=1600&auto=format&fit=crop",
+            a:"https://images.unsplash.com/photo-1520975916090-3105956dac38?w=1600&auto=format&fit=crop"}
+};
+const $=id=>document.getElementById(id), clip=$('clip'), handle=$('handle'), slider=$('slider');
+function setSplit(p){ clip.style.width=p+"%"; handle.style.left=p+"%"; }
+function setImgs(b,a){ $('before').src=b; $('after').src=a; }
+$('preset').onchange=()=>{ const s=sets[$('preset').value]; setImgs(s.b,s.a); };
+$('slider').oninput=()=>setSplit(slider.value);
+$('beforeUrl').onchange=()=>{ if($('beforeUrl').value) $('before').src=$('beforeUrl').value.trim(); };
+$('afterUrl').onchange=()=>{ if($('afterUrl').value) $('after').src=$('afterUrl').value.trim(); };
+// drag on desktop/mobile
+const viewer=$('viewer');
+viewer.addEventListener('pointerdown',e=>{viewer.setPointerCapture(e.pointerId); move(e);});
+viewer.addEventListener('pointermove',e=>{ if(e.pressure>0) move(e);});
+function move(e){ const r=viewer.getBoundingClientRect(); const p=((e.clientX-r.left)/r.width)*100; setSplit(Math.max(0,Math.min(100,p))); }
+$('preset').dispatchEvent(new Event('change')); setSplit(50);
+</script>
