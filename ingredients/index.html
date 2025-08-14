@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FoamZyme — 3 Ingredients</title>
+<style>
+:root{--green:#136a40;--yellow:#ffc700;--cream:#fffbf0;--ink:#143024}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+.wrap{max-width:980px;margin:0 auto;padding:20px}
+.card{background:#fff;border:1px solid #e7eee7;border-radius:16px;padding:16px;box-shadow:0 6px 24px rgba(20,48,36,.06)}
+h1{margin:0 0 8px;font-size:22px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.item{border:1px solid #e7eee7;border-radius:12px;padding:12px;cursor:pointer}
+.item:hover{outline:2px solid var(--yellow)}
+</style>
+<div class="wrap">
+  <h1>Only 3 Ingredients. Safe. Effective.</h1>
+  <div class="grid">
+    <div class="item" data-k="water"><b>Water</b><br><small>Solvent / carrier</small></div>
+    <div class="item" data-k="coco"><b>Coco Betaine</b><br><small>Foam & lift</small></div>
+    <div class="item" data-k="enzyme"><b>Evogen MEC-B</b><br><small>Bio-enzymatic cleaner</small></div>
+  </div>
+  <div id="detail" class="card" style="margin-top:12px"></div>
+</div>
+<script>
+const D={
+  water:{role:"Carries the actives and keeps foam moist so bacteria stay active.",safety:"Drinking-water grade; no harsh solvents.",why:"Moisture retention = longer enzyme activity."},
+  coco:{role:"Gentle surfactant from coconut that creates foam and lifts residues.",safety:"Common in baby shampoos; readily biodegradable.",why:"Foam increases surface contact and dwell time."},
+  enzyme:{role:"Bacillus blend + enzymes that break down odor-causing organics.",safety:"Non-pathogenic strains; pet-safe as directed.",why:"Targets urea/uric compounds at the source."}
+};
+const detail=document.getElementById('detail');
+function render(k){const x=D[k]; detail.innerHTML=`<h3 style="margin:0">${k==='coco'?'Coco Betaine':k==='enzyme'?'Evogen MEC-B':'Water'}</h3>
+<p><b>Role:</b> ${x.role}</p><p><b>Safety:</b> ${x.safety}</p><p><b>Why it matters:</b> ${x.why}</p>`;}
+document.querySelectorAll('.item').forEach(i=>i.onclick=()=>render(i.dataset.k)); render('enzyme');
+</script>
