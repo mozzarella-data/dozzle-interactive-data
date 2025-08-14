@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Property Manager ROI — Dozzle</title>
+<style>
+:root{--green:#136a40;--yellow:#ffc700;--cream:#fffbf0;--ink:#143024}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.45 Inter,system-ui,-apple-system}
+.wrap{max-width:1000px;margin:0 auto;padding:20px}
+.card{background:#fff;border:1px solid #e7eee7;border-radius:16px;padding:16px;box-shadow:0 6px 24px rgba(20,48,36,.06)}
+h1{margin:0 0 6px;font-size:22px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.row{display:grid;grid-template-columns:1fr 140px;gap:8px;align-items:center}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.kpi div{background:#f8fbf8;border:1px solid #e7eee7;border-radius:12px;padding:10px;text-align:center}
+</style>
+<div class="wrap">
+  <h1>Property Manager ROI</h1>
+  <div class="card">
+    <div class="grid">
+      <div class="row"><label>Units</label><input id="units" type="number" value="200"></div>
+      <div class="row"><label>% Tenants w/ dogs</label><input id="dogpct" type="number" value="35"></div>
+      <div class="row"><label>Complaints / month</label><input id="compl" type="number" value="12"></div>
+      <div class="row"><label>Staff min / complaint</label><input id="mins" type="number" value="25"></div>
+      <div class="row"><label>Water $ / 1k gal</label><input id="water$" type="number" value="9" step="0.01"></div>
+      <div class="row"><label>Turf areas</label><input id="areas" type="number" value="6"></div>
+      <div class="row"><label>Cleanings / week</label><input id="cleans" type="number" value="3"></div>
+      <div class="row"><label>Hose gal / clean</label><input id="hose" type="number" value="8.25" step="0.01"></div>
+      <div class="row"><label>Dozzle oz / clean</label><input id="doz" type="number" value="8.8" step="0.1"></div>
+      <div class="row"><label>Complaint reduction %</label><input id="cr" type="number" value="40"></div>
+      <div class="row"><label>Wage $/hr</label><input id="wage" type="number" value="22" step="0.01"></div>
+      <div class="row"><label>FoamZyme $/bottle</label><input id="price" type="number" value="21.99" step="0.01"></div>
+    </div>
+    <div id="out" class="kpi"></div>
+  </div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+function calc(){
+  const units=+$('units').value, dogpct=+$('dogpct').value/100, compl=+$('compl').value, mins=+$('mins').value;
+  const water$=+$('water$').value, areas=+$('areas').value, cleans=+$('cleans').value, hose=+$('hose').value, doz=+$('doz').value;
+  const cr=+$('cr').value/100, wage=+$('wage').value, price=+$('price').value;
+  const staffHrSaved=compl*cr*mins/60, labor$=staffHrSaved*wage;
+  const galDoz=(areas*cleans*52*doz)/128, galHose=(areas*cleans*52*hose), galSaved=Math.max(galHose-galDoz,0), water$Saved=galSaved/1000*water$;
+  const uses=areas*cleans*52, foamOz=uses*1.2, bottles=foamOz/32, product$=bottles*price;
+  const net=water$Saved+labor$-product$;
+  const f=(n,d=0)=>Number(n).toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d});
+  $('out').innerHTML=`
+    <div><div><b>${f(units*dogpct,0)}</b></div><small>Dog-owning tenants</small></div>
+    <div><div><b>${f(staffHrSaved,1)}</b></div><small>Staff hours saved / yr</small></div>
+    <div><div><b>$${f(labor$,0)}</b></div><small>Labor $ saved / yr</small></div>
+    <div><div><b>${f(galSaved,0)}</b></div><small>Gallons saved / yr</small></div>
+    <div><div><b>$${f(water$Saved,0)}</b></div><small>Water $ saved / yr</small></div>
+    <div><div><b>$${f(product$,0)}</b></div><small>Product cost / yr</small></div>
+    <div><div><b>$${f(net,0)}</b></div><small><b>Net savings / yr</b></small></div>`;
+}
+['units','dogpct','compl','mins','water$','areas','cleans','hose','doz','cr','wage','price'].forEach(id=>$(id).addEventListener('input',calc)); calc();
+</script>
