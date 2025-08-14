@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="en"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FoamZyme Refill Planner</title>
+<style>
+:root{--green:#136a40;--yellow:#ffc700;--cream:#fffbf0;--ink:#143024}
+*{box-sizing:border-box} body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.35 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+.wrap{max-width:900px;margin:0 auto;padding:20px}
+.card{background:#fff;border:1px solid #e7eee7;border-radius:16px;padding:16px;box-shadow:0 6px 24px rgba(20,48,36,.06)}
+h1{margin:0 0 6px;font-size:22px} .sub{opacity:.8;font-size:14px;margin-bottom:16px}
+.grid{display:grid;gap:10px} .row{display:grid;grid-template-columns:1fr 140px;gap:10px;align-items:center}
+.output{margin-top:12px;border-top:1px dashed #dfe7df;padding-top:12px}
+.kpi{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
+.kpi div{background:#f8fbf8;border:1px solid #e7eee7;border-radius:12px;padding:10px;text-align:center}
+small{opacity:.8}
+.btn{display:inline-block;margin-top:12px;padding:10px 14px;border-radius:10px;background:var(--green);color:#fff;text-decoration:none;font-weight:600}
+</style>
+<div class="wrap">
+  <h1>FoamZyme Refill Planner</h1>
+  <div class="sub">Dial in your subscribe & save cadence. Uses your real routine.</div>
+  <div class="card">
+    <div class="grid">
+      <div class="row"><label>Yard size (sqft)</label><input id="sqft" type="number" value="500" min="0"></div>
+      <div class="row"><label>Dogs using the yard</label><input id="dogs" type="number" value="1" min="1"></div>
+      <div class="row"><label>Sprays per week</label><input id="sprays" type="number" value="4" min="0"></div>
+      <div class="row"><label>Price per bottle ($)</label><input id="price" type="number" value="21.99" step="0.01"></div>
+    </div>
+    <div class="output" id="out"></div>
+  </div>
+  <a class="btn" id="addToCart" href="https://www.dozzlepets.com/products/foamzyme?utm_source=planner" target="_blank" rel="noopener">Shop Subscribe & Save</a>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const S={ // constants from your data
+  COVERAGE_PER_USE_SQFT:100,        // ~100 sqft per quick spray
+  FOAMZYME_PER_USE_OZ:1.2,          // ~1.2 oz FoamZyme per use
+  FOAMZYME_PER_BOTTLE_OZ:32,        // 32 oz bottle
+  SECONDS_PER_USE:15,               // quick daily spray
+  HOSE_SETUP_MIN:10,                // hose-end setup time for contrast
+  HOSE_WATER_PER_USE_GAL:8.25,      // hose-end water per use
+  DOZZLE_WATER_PER_USE_OZ:8.8       // Dozzle water per use
+};
+function calc(){
+  const sqft=+$('sqft').value||0;
+  const dogs=+$('dogs').value||1;
+  const sprays=+$('sprays').value||0;
+  const price=+$('price').value||0;
+
+  const usesPerDog= Math.ceil(sqft / S.COVERAGE_PER_USE_SQFT);     // passes to cover yard
+  const usesWeek = sprays * Math.max(dogs,1) * usesPerDog;         // total quick sprays/wk
+  const usesMonth = usesWeek * 4.33;
+
+  const ozPerMonth = usesMonth * S.FOAMZYME_PER_USE_OZ;
+  const bottlesPerMonth = ozPerMonth / S.FOAMZYME_PER_BOTTLE_OZ;
+  const bottlesPerYear = bottlesPerMonth * 12;
+  const costPerMonth = bottlesPerMonth * price;
+
+  const daysBetweenBottles = (S.FOAMZYME_PER_BOTTLE_OZ / S.FOAMZYME_PER_USE_OZ) / (usesWeek/7 || 1);
+  const cadence = daysBetweenBottles<=21? "Every 3 weeks"
+                : daysBetweenBottles<=28? "Every 4 weeks"
+                : daysBetweenBottles<=42? "Every 6 weeks"
+                : "Every 8 weeks";
+
+  // water/time deltas (education)
+  const dozzleWaterYear = (usesWeek*52 * S.DOZZLE_WATER_PER_USE_OZ)/128;
+  const hoseWaterYear   = (usesWeek*52 * S.HOSE_WATER_PER_USE_GAL);
+  const waterSaved = Math.max(hoseWaterYear - dozzleWaterYear,0);
+  const timeSavedHr = (S.HOSE_SETUP_MIN/60) * usesWeek * 52; // vs 0 setup
+
+  const f=(n,d=2)=>Number(n).toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d});
+  $('out').innerHTML = `
+    <div><strong>Suggested cadence:</strong> ${cadence}</div>
+    <div class="kpi">
+      <div><div><strong>${f(bottlesPerMonth,2)}</strong></div><small> bottles / month</small></div>
+      <div><div><strong>$${f(costPerMonth,2)}</strong></div><small> est. cost / month</small></div>
+      <div><div><strong>${f(bottlesPerYear,1)}</strong></div><small> bottles / year</small></div>
+      <div><div><strong>${f(waterSaved,0)}</strong></div><small> gallons saved / year</small></div>
+      <div><div><strong>${f(timeSavedHr,1)}</strong></div><small> setup hours saved / year</small></div>
+    </div>`;
+}
+['sqft','dogs','sprays','price'].forEach(id=>$(id).addEventListener('input',calc));
+calc();
+</script>
