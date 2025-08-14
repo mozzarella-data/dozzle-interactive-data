@@ -1,0 +1,1097 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>html</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray {
+	color: rgba(115, 114, 110, 1);
+	fill: rgba(115, 114, 110, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(205, 60, 58, 1);
+	fill: rgba(205, 60, 58, 1);
+}
+.highlight-default_background {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.highlight-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(115, 114, 110, 1);
+	fill: rgba(115, 114, 110, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(205, 60, 58, 1);
+	fill: rgba(205, 60, 58, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.block-color-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-default { background-color: rgba(84, 72, 49, 0.08); }
+.select-value-color-gray { background-color: rgba(84, 72, 49, 0.15); }
+.select-value-color-brown { background-color: rgba(210, 162, 141, 0.35); }
+.select-value-color-orange { background-color: rgba(224, 124, 57, 0.27); }
+.select-value-color-yellow { background-color: rgba(236, 191, 66, 0.39); }
+.select-value-color-green { background-color: rgba(123, 183, 129, 0.27); }
+.select-value-color-blue { background-color: rgba(93, 165, 206, 0.27); }
+.select-value-color-purple { background-color: rgba(168, 129, 197, 0.27); }
+.select-value-color-pink { background-color: rgba(225, 136, 179, 0.27); }
+.select-value-color-red { background-color: rgba(244, 171, 159, 0.4); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="24e973df-1972-8067-8d44-e2e7eae06fc9" class="page sans"><header><h1 class="page-title">html</h1><p class="page-description"></p></header><div class="page-body"><p id="24e973df-1972-8028-845e-d128e7ff7ea1" class="">
+</p><p id="24e973df-1972-800b-8858-d385dee7a3cf" class="">
+</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="24e973df-1972-8038-a375-fffb4ee97093" class="code code-wrap"><code class="language-HTML" style="white-space:pre-wrap;word-break:break-all">
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot; /&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;
+  &lt;title&gt;Dozzle vs Hose-End — Interactive Comparison&lt;/title&gt;
+  &lt;style&gt;
+    :root{ --green:#136a40; --yellow:#ffc700; --cream:#fffbf0; --ink:#143024; --muted:#e9efe7; }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; color:var(--ink); background:var(--cream); line-height:1.35}
+    header{position:sticky; top:0; background:#ffffffcc; backdrop-filter:saturate(1.1) blur(8px); border-bottom:1px solid #eef2ee; z-index:5}
+    .wrap{max-width:1100px; margin:0 auto; padding:16px 20px}
+    h1{margin:4px 0 8px; font-size:24px}
+    .sub{font-size:13px; opacity:.8}
+
+    .grid{display:grid; gap:16px}
+    @media(min-width:900px){.grid{grid-template-columns: 1.1fr .9fr}}
+    .panel{background:#fff; border:1px solid #e7eee7; border-radius:16px; padding:16px; box-shadow:0 6px 24px rgba(20,48,36,.06)}
+
+    .controls{display:grid; gap:10px}
+    .controls .row{display:grid; grid-template-columns: 280px 1fr 80px; gap:10px; align-items:center}
+    .num{font-variant-numeric:tabular-nums; text-align:right}
+
+    .assumptions{display:grid; gap:8px; margin-top:10px}
+    .assumptions .row{display:grid; grid-template-columns: 1fr 120px 1fr 120px; gap:10px; align-items:center}
+    .assumptions h3{font-size:12px; text-transform:uppercase; letter-spacing:.08em; margin:8px 0; opacity:.7}
+    .tag{display:inline-block; font-size:11px; padding:2px 8px; border-radius:999px; background:var(--muted); color:var(--green); font-weight:600}
+
+    .cards{display:grid; gap:12px}
+    @media(min-width:700px){.cards{grid-template-columns:repeat(2,1fr)}}
+    .card{border:1px solid #e7eee7; border-radius:14px; padding:12px; background:#fff}
+    .card h3{margin:0 0 6px; font-size:14px}
+
+    table{width:100%; border-collapse:separate; border-spacing:0; overflow:hidden; border-radius:12px; border:1px solid #e7eee7}
+    th,td{padding:10px 12px; border-bottom:1px solid #eef2ee; font-size:13px}
+    th{background:#f8fbf8; text-align:left}
+    tbody tr:last-child td{border:0}
+    .right{text-align:right; font-variant-numeric:tabular-nums}
+    .unit{opacity:.7; font-size:11px}
+
+    .tip{position:relative; border-bottom:1px dotted #9bb; cursor:help}
+    .tip::after{content:attr(data-tip); position:absolute; left:0; top:100%; transform:translateY(6px); background:#143024; color:#fff; padding:6px 8px; border-radius:8px; font-size:11px; line-height:1.2; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .2s}
+    .tip:hover::after{opacity:.95}
+
+    #chartWrap{position:relative; height:320px}
+
+    details{border:1px solid #e7eee7; border-radius:12px; padding:10px 12px; background:#fff}
+    details+details{margin-top:8px}
+    summary{font-weight:600; cursor:pointer}
+
+    .tests{font-size:12px; opacity:.9}
+    .pass{color:#136a40; font-weight:700}
+    .fail{color:#b00020; font-weight:700}
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;
+    &lt;div class=&quot;wrap&quot;&gt;
+      &lt;h1&gt;Dozzle vs. Hose‑End Sprayer — Interactive&lt;/h1&gt;
+      &lt;div class=&quot;sub&quot;&gt;One slider controls both sides. Hover &lt;span class=&quot;tip&quot; data-tip=&quot;We show formulas inline where helpful.&quot;&gt;ⓘ&lt;/span&gt; for formulas. Open dropdowns for core data.&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;main class=&quot;wrap grid&quot; id=&quot;app&quot;&gt;
+    &lt;section class=&quot;panel&quot;&gt;
+      &lt;div class=&quot;controls&quot;&gt;
+        &lt;div class=&quot;row&quot;&gt;
+          &lt;label&gt;Uses per month: Dozzle vs Hose‑end Sprayer&lt;/label&gt;
+          &lt;input id=&quot;usesPerMonth&quot; type=&quot;range&quot; min=&quot;0&quot; max=&quot;60&quot; step=&quot;1&quot; value=&quot;4&quot; /&gt;
+          &lt;div class=&quot;num&quot;&gt;&lt;span id=&quot;usesPerMonthVal&quot;&gt;4&lt;/span&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;assumptions&quot;&gt;
+        &lt;h3&gt;Assumptions (editable)&lt;/h3&gt;
+        &lt;div class=&quot;row&quot;&gt;
+          &lt;div&gt;Dozzle price per 32oz bottle&lt;/div&gt;
+          &lt;input id=&quot;dozzlePrice&quot; type=&quot;number&quot; step=&quot;0.01&quot; value=&quot;19.99&quot; /&gt;
+          &lt;div&gt;Hose‑end price per bottle&lt;/div&gt;
+          &lt;input id=&quot;hosePrice&quot; type=&quot;number&quot; step=&quot;0.01&quot; value=&quot;15.00&quot; /&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;row&quot;&gt;
+          &lt;div&gt;Dozzle uses per bottle &lt;span class=&quot;tag&quot; title=&quot;Spreadsheet core data uses 26.7; defaults follow your screenshot&quot;&gt;26&lt;/span&gt;&lt;/div&gt;
+          &lt;input id=&quot;dozzleUsesPerBottle&quot; type=&quot;number&quot; step=&quot;0.1&quot; value=&quot;26&quot; /&gt;
+          &lt;div&gt;Hose‑end uses per bottle &lt;span class=&quot;tag&quot; title=&quot;Spreadsheet showed 7.5; your screenshot uses 1&quot;&gt;1&lt;/span&gt;&lt;/div&gt;
+          &lt;input id=&quot;hoseUsesPerBottle&quot; type=&quot;number&quot; step=&quot;0.1&quot; value=&quot;1&quot; /&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;row&quot;&gt;
+          &lt;div&gt;Dozzle water per use (oz) &lt;span class=&quot;tag&quot;&gt;8.8&lt;/span&gt;&lt;/div&gt;
+          &lt;input id=&quot;dozzleWaterOz&quot; type=&quot;number&quot; step=&quot;0.1&quot; value=&quot;8.8&quot; /&gt;
+          &lt;div&gt;Hose‑end water per use (gal) &lt;span class=&quot;tag&quot;&gt;8.25&lt;/span&gt;&lt;/div&gt;
+          &lt;input id=&quot;hoseWaterGal&quot; type=&quot;number&quot; step=&quot;0.01&quot; value=&quot;8.25&quot; /&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;row&quot;&gt;
+          &lt;div&gt;Dozzle setup time per use (sec) &lt;span class=&quot;tag&quot;&gt;0&lt;/span&gt;&lt;/div&gt;
+          &lt;input id=&quot;dozzleSetupSec&quot; type=&quot;number&quot; step=&quot;1&quot; value=&quot;0&quot; /&gt;
+          &lt;div&gt;Hose‑end setup time per use (min) &lt;span class=&quot;tag&quot;&gt;10&lt;/span&gt;&lt;/div&gt;
+          &lt;input id=&quot;hoseSetupMin&quot; type=&quot;number&quot; step=&quot;0.5&quot; value=&quot;10&quot; /&gt;
+        &lt;/div&gt;
+
+        &lt;details&gt;
+          &lt;summary&gt;Dozzle Core Data&lt;/summary&gt;
+          &lt;ul&gt;
+            &lt;li&gt;FoamZyme per Use: &lt;strong&gt;1.2 oz&lt;/strong&gt; (per ~100 sqft)&lt;/li&gt;
+            &lt;li&gt;Water per Use: &lt;strong&gt;8.8 oz&lt;/strong&gt;&lt;/li&gt;
+            &lt;li&gt;Sqft per Use: &lt;strong&gt;100 sqft&lt;/strong&gt;&lt;/li&gt;
+            &lt;li&gt;Uses per Tank: &lt;strong&gt;5&lt;/strong&gt; (50 oz = 6 oz FoamZyme + 44 oz water)&lt;/li&gt;
+            &lt;li&gt;FoamZyme per Tank: &lt;strong&gt;6 oz&lt;/strong&gt;&lt;/li&gt;
+            &lt;li&gt;Water per Tank: &lt;strong&gt;44 oz&lt;/strong&gt;&lt;/li&gt;
+            &lt;li&gt;Cost per Use: &lt;strong&gt;$0.82&lt;/strong&gt; (21.99 ÷ 26.7)&lt;/li&gt;
+            &lt;li&gt;Uses per Bottle: &lt;strong&gt;26.7&lt;/strong&gt;&lt;/li&gt;
+            &lt;li&gt;Coverage per Bottle: &lt;strong&gt;2,667 sqft&lt;/strong&gt;&lt;/li&gt;
+            &lt;li&gt;Tanks per Bottle: &lt;strong&gt;5.33&lt;/strong&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/details&gt;
+        &lt;details&gt;
+          &lt;summary&gt;Hose‑End Sprayer Core Data&lt;/summary&gt;
+          &lt;ul&gt;
+            &lt;li&gt;Dilution Ratio: &lt;strong&gt;1:32&lt;/strong&gt;&lt;/li&gt;
+            &lt;li&gt;Water per Use: &lt;strong&gt;8.25 gal&lt;/strong&gt;&lt;/li&gt;
+            &lt;li&gt;Coverage per Use: &lt;strong&gt;100 sqft&lt;/strong&gt;&lt;/li&gt;
+            &lt;li&gt;Price per Bottle: &lt;strong&gt;$15.00&lt;/strong&gt;&lt;/li&gt;
+            &lt;li&gt;Uses per Bottle: &lt;strong&gt;7.5&lt;/strong&gt;&lt;/li&gt;
+            &lt;li&gt;Coverage per Bottle: &lt;strong&gt;750 sqft&lt;/strong&gt;&lt;/li&gt;
+            &lt;li&gt;Water per Bottle: &lt;strong&gt;61.88 gal&lt;/strong&gt;&lt;/li&gt;
+            &lt;li&gt;Example Year @ 4/wk: &lt;strong&gt;208 uses&lt;/strong&gt;&lt;/li&gt;
+            &lt;li&gt;Example Bottles/Year: &lt;strong&gt;27.7&lt;/strong&gt;&lt;/li&gt;
+            &lt;li&gt;Example Water/Year: &lt;strong&gt;1,716 gal&lt;/strong&gt;&lt;/li&gt;
+            &lt;li&gt;Example Cost/Year: &lt;strong&gt;$416&lt;/strong&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/details&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;panel cards&quot;&gt;
+      &lt;div class=&quot;card&quot;&gt;
+        &lt;h3&gt;At a glance&lt;/h3&gt;
+        &lt;table&gt;
+          &lt;thead&gt;
+            &lt;tr&gt;
+              &lt;th&gt;Metric&lt;/th&gt;
+              &lt;th class=&quot;right&quot;&gt;Dozzle&lt;/th&gt;
+              &lt;th class=&quot;right&quot;&gt;Hose‑end&lt;/th&gt;
+              &lt;th class=&quot;right&quot;&gt;Delta (Hose − Dozzle)&lt;/th&gt;
+            &lt;/tr&gt;
+          &lt;/thead&gt;
+          &lt;tbody&gt;
+            &lt;tr&gt;
+              &lt;td&gt;Annual water &lt;span class=&quot;tip&quot; data-tip=&quot;(Water/use × uses/mo × 12). Dozzle converts oz→gal (÷128)&quot;&gt;ⓘ&lt;/span&gt;&lt;/td&gt;
+              &lt;td class=&quot;right&quot;&gt;&lt;span id=&quot;wDozzle&quot;&gt;—&lt;/span&gt; &lt;span class=&quot;unit&quot;&gt;gal/yr&lt;/span&gt;&lt;/td&gt;
+              &lt;td class=&quot;right&quot;&gt;&lt;span id=&quot;wHose&quot;&gt;—&lt;/span&gt; &lt;span class=&quot;unit&quot;&gt;gal/yr&lt;/span&gt;&lt;/td&gt;
+              &lt;td class=&quot;right&quot;&gt;&lt;span id=&quot;wDelta&quot;&gt;—&lt;/span&gt; &lt;span class=&quot;unit&quot;&gt;gal saved&lt;/span&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;Annual product cost &lt;span class=&quot;tip&quot; data-tip=&quot;(uses/mo × 12 ÷ uses/bottle) × price/bottle&quot;&gt;ⓘ&lt;/span&gt;&lt;/td&gt;
+              &lt;td class=&quot;right&quot;&gt;$&lt;span id=&quot;cDozzle&quot;&gt;—&lt;/span&gt;&lt;/td&gt;
+              &lt;td class=&quot;right&quot;&gt;$&lt;span id=&quot;cHose&quot;&gt;—&lt;/span&gt;&lt;/td&gt;
+              &lt;td class=&quot;right&quot;&gt;$&lt;span id=&quot;cDelta&quot;&gt;—&lt;/span&gt; saved&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;Plastic bottles / year &lt;span class=&quot;tip&quot; data-tip=&quot;uses/mo × 12 ÷ uses/bottle&quot;&gt;ⓘ&lt;/span&gt;&lt;/td&gt;
+              &lt;td class=&quot;right&quot;&gt;&lt;span id=&quot;pDozzle&quot;&gt;—&lt;/span&gt;&lt;/td&gt;
+              &lt;td class=&quot;right&quot;&gt;&lt;span id=&quot;pHose&quot;&gt;—&lt;/span&gt;&lt;/td&gt;
+              &lt;td class=&quot;right&quot;&gt;&lt;span id=&quot;pDelta&quot;&gt;—&lt;/span&gt; fewer&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;Setup time / year &lt;span class=&quot;tip&quot; data-tip=&quot;Dozzle: sec/use × uses/mo × 12 ÷ 3600; Hose: min/use × uses/mo × 12 ÷ 60&quot;&gt;ⓘ&lt;/span&gt;&lt;/td&gt;
+              &lt;td class=&quot;right&quot;&gt;&lt;span id=&quot;tDozzle&quot;&gt;—&lt;/span&gt; &lt;span class=&quot;unit&quot;&gt;hours&lt;/span&gt;&lt;/td&gt;
+              &lt;td class=&quot;right&quot;&gt;&lt;span id=&quot;tHose&quot;&gt;—&lt;/span&gt; &lt;span class=&quot;unit&quot;&gt;hours&lt;/span&gt;&lt;/td&gt;
+              &lt;td class=&quot;right&quot;&gt;&lt;span id=&quot;tDelta&quot;&gt;—&lt;/span&gt; &lt;span class=&quot;unit&quot;&gt;hours saved&lt;/span&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/tbody&gt;
+        &lt;/table&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;card&quot;&gt;
+        &lt;h3&gt;Visual Comparison&lt;/h3&gt;
+        &lt;div id=&quot;chartWrap&quot;&gt;&lt;canvas id=&quot;comparisonChart&quot;&gt;&lt;/canvas&gt;&lt;/div&gt;
+        &lt;div class=&quot;delta&quot; id=&quot;deltaText&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;card tests&quot;&gt;
+        &lt;h3&gt;Diagnostics &amp; tests&lt;/h3&gt;
+        &lt;button id=&quot;runTests&quot;&gt;Run tests&lt;/button&gt;
+        &lt;div id=&quot;testOutput&quot;&gt;(no tests run yet)&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+
+  &lt;footer class=&quot;wrap&quot;&gt;
+    Sources: Spreadsheet + PDF values provided by you. Defaults match your screenshot; dropdowns show core data from the sheet.
+  &lt;/footer&gt;
+
+  &lt;script src=&quot;https://cdn.jsdelivr.net/npm/chart.js&quot;&gt;&lt;/script&gt;
+  &lt;script&gt;
+  (function(){
+    function ready(fn){
+      if(document.readyState === &#x27;complete&#x27; || document.readyState === &#x27;interactive&#x27;) { setTimeout(fn,0); }
+      else { document.addEventListener(&#x27;DOMContentLoaded&#x27;, fn, {once:true}); }
+    }
+
+    ready(function(){
+      const $ = (id)=&gt;document.getElementById(id);
+
+      // --- State ---
+      const state = {
+        usesPerMonth: 4,
+        dozzlePrice: 19.99,
+        hosePrice: 15.00,
+        dozzleUsesPerBottle: 26,
+        hoseUsesPerBottle: 1,
+        dozzleWaterOz: 8.8,
+        hoseWaterGal: 8.25,
+        dozzleSetupSec: 0,
+        hoseSetupMin: 10
+      };
+
+      // --- Helpers ---
+      function fmt(n, d=0){
+        return Number(n).toLocaleString(undefined,{maximumFractionDigits:d, minimumFractionDigits:d});
+      }
+
+      function computeTotals(s){
+        const usesYear = s.usesPerMonth * 12;
+        const waterGalDozzle = (s.dozzleWaterOz * usesYear) / 128;
+        const waterGalHose = s.hoseWaterGal * usesYear;
+        const bottlesDozzle = usesYear / Math.max(s.dozzleUsesPerBottle, 0.0001);
+        const bottlesHose = usesYear / Math.max(s.hoseUsesPerBottle, 0.0001);
+        const costDozzle = bottlesDozzle * s.dozzlePrice;
+        const costHose = bottlesHose * s.hosePrice;
+        const hoursDozzle = (s.dozzleSetupSec * usesYear) / 3600;
+        const hoursHose = (s.hoseSetupMin * usesYear) / 60;
+        const svWater = Math.max(waterGalHose - waterGalDozzle,0);
+        const svCost  = Math.max(costHose - costDozzle,0);
+        const svPlas  = Math.max(bottlesHose - bottlesDozzle,0);
+        const svTime  = Math.max(hoursHose - hoursDozzle,0);
+        return {usesYear, waterGalDozzle, waterGalHose, bottlesDozzle, bottlesHose, costDozzle, costHose, hoursDozzle, hoursHose, svWater, svCost, svPlas, svTime};
+      }
+
+      // --- Chart (declare before calc &amp; listeners to avoid TDZ) ---
+      let chart = null; // initialized before any access
+      const canvas = $(&#x27;comparisonChart&#x27;);
+      if(canvas &amp;&amp; window.Chart){
+        const ctx = canvas.getContext(&#x27;2d&#x27;);
+        // plugin to draw % labels above Dozzle bars and absolute savings inside the bar
+        const percentPlugin = {
+          id:&#x27;percentLabels&#x27;,
+          afterDatasetsDraw(chart, args, pluginOpts){
+            const units = (chart.options.plugins.percentLabels &amp;&amp; chart.options.plugins.percentLabels.units) || [&#x27; gal/yr&#x27;,&#x27; $/yr&#x27;,&#x27; bottles/yr&#x27;,&#x27; h/yr&#x27;];
+            const dozzle = chart.data.datasets[0]?.data || [];
+            const hose   = chart.data.datasets[1]?.data || [];
+            const meta   = chart.getDatasetMeta(0);
+            const ctx    = chart.ctx; ctx.save();
+            dozzle.forEach((v,i)=&gt;{
+              const el = meta.data[i]; if(!el) return;
+              const hoseAbs = Math.abs(hose[i]||0);
+              const pct = hoseAbs&gt;0? Math.round(((hoseAbs - v)/hoseAbs)*100):0;
+              // percent above bar
+              ctx.fillStyle = &#x27;#111&#x27;; ctx.textAlign=&#x27;center&#x27;; ctx.font=&#x27;700 14px Inter, system-ui, sans-serif&#x27;;
+              ctx.fillText(`${pct}%`, el.x, el.y - 8);
+              // absolute savings inside bar (center)
+              const saved = Math.max(hoseAbs - v,0);
+              if(saved&gt;0){
+                const pretty = (i===1? `$${Math.round(saved).toLocaleString()}` : `${Math.round(saved).toLocaleString()}`)+units[i];
+                ctx.fillStyle = &#x27;#fff&#x27;; ctx.font=&#x27;600 12px Inter, system-ui, sans-serif&#x27;;
+                const midY = el.y + (el.baseY - el.y)/2; // middle of positive bar
+                ctx.fillText(pretty, el.x, midY);
+              }
+            });
+            ctx.restore();
+          }
+        };
+        Chart.register(percentPlugin);
+
+        chart = new Chart(ctx, {
+          type: &#x27;bar&#x27;,
+          data: {
+            labels: [&#x27;Water&#x27;, &#x27;Money&#x27;, &#x27;Plastic&#x27;, &#x27;Setup time&#x27;],
+            datasets: [
+              { label: &#x27;Dozzle&#x27;, data: [0,0,0,0], backgroundColor: &#x27;#136a40&#x27;, borderColor:&#x27;#136a40&#x27;, borderWidth:1, borderRadius:8 },
+              { label: &#x27;Hose-end&#x27;, data: [0,0,0,0], backgroundColor: &#x27;#a77a50&#x27;, borderColor:&#x27;#f9d705&#x27;, borderWidth:1, borderRadius:8 }
+            ]
+          },
+          options: {
+            responsive:true,
+            maintainAspectRatio:false,
+            animation:{duration:600},
+            plugins:{
+              legend:{display:true, labels:{usePointStyle:true, boxWidth:10}},
+              tooltip:{
+                callbacks:{
+                  label:(ctx)=&gt;{
+                    const idx = ctx.dataIndex; const lbl = ctx.dataset.label; const raw = ctx.raw;
+                    const abs = Math.abs(raw);
+                    const units=[&#x27; gal/yr&#x27;,&#x27; $/yr&#x27;,&#x27; bottles/yr&#x27;,&#x27; h/yr&#x27;];
+                    const sign = raw&lt;0? &#x27;-&#x27; : &#x27;&#x27;;
+                    return `${lbl}: ${sign}${abs.toLocaleString()}${units[idx]}`;
+                  }
+                }
+              },
+              percentLabels:{units:[&#x27; gal/yr&#x27;,&#x27; $/yr&#x27;,&#x27; bottles/yr&#x27;,&#x27; h/yr&#x27;]}
+            },
+            scales:{
+              y:{beginAtZero:true, grid:{display:false}},
+              x:{grid:{display:false}}
+            }
+          }
+        });
+      }
+
+      // --- Calc &amp; render ---
+      function calc(){
+        const t = computeTotals(state);
+        // Table
+        $(&#x27;wDozzle&#x27;).textContent = fmt(t.waterGalDozzle,1);
+        $(&#x27;wHose&#x27;).textContent   = fmt(t.waterGalHose,1);
+        $(&#x27;wDelta&#x27;).textContent  = fmt(t.svWater,1);
+        $(&#x27;cDozzle&#x27;).textContent = fmt(t.costDozzle,2);
+        $(&#x27;cHose&#x27;).textContent   = fmt(t.costHose,2);
+        $(&#x27;cDelta&#x27;).textContent  = fmt(t.svCost,2);
+        $(&#x27;pDozzle&#x27;).textContent = fmt(t.bottlesDozzle,1);
+        $(&#x27;pHose&#x27;).textContent   = fmt(t.bottlesHose,1);
+        $(&#x27;pDelta&#x27;).textContent  = fmt(t.svPlas,1);
+        $(&#x27;tDozzle&#x27;).textContent = fmt(t.hoursDozzle,2);
+        $(&#x27;tHose&#x27;).textContent   = fmt(t.hoursHose,2);
+        $(&#x27;tDelta&#x27;).textContent  = fmt(t.svTime,2);
+
+        // Chart (vertical; Dozzle up, Hose down)
+        if(chart){
+          const dozzleData = [t.waterGalDozzle, t.costDozzle, t.bottlesDozzle, t.hoursDozzle].map(v=&gt;Number(v.toFixed(2)));
+          const hoseData   = [-t.waterGalHose, -t.costHose, -t.bottlesHose, -t.hoursHose].map(v=&gt;Number(v.toFixed(2)));
+          chart.data.datasets[0].data = dozzleData;
+          chart.data.datasets[1].data = hoseData;
+          const maxAbs = Math.max(...dozzleData.map(Math.abs), ...hoseData.map(Math.abs), 1);
+          chart.options.scales.y.suggestedMax = maxAbs * 1.1;
+          chart.options.scales.y.suggestedMin = -maxAbs * 1.1;
+          chart.update();
+        }
+
+        // Percent reductions for headline
+        const pct = (h,d)=&gt; h&gt;0? ((h-d)/h*100):0;
+        const pWater = pct(t.waterGalHose, t.waterGalDozzle);
+        const pCost  = pct(t.costHose, t.costDozzle);
+        const pBott  = pct(t.bottlesHose, t.bottlesDozzle);
+        const pTime  = pct(t.hoursHose, t.hoursDozzle);
+
+        $(&#x27;deltaText&#x27;).innerHTML = `Dozzle vs Hose‑end: &lt;strong&gt;${pWater.toFixed(0)}% less water&lt;/strong&gt;, &lt;strong&gt;${pCost.toFixed(0)}% lower product cost&lt;/strong&gt;, &lt;strong&gt;${pBott.toFixed(0)}% fewer bottles&lt;/strong&gt;, and &lt;strong&gt;${pTime.toFixed(0)}% less setup time&lt;/strong&gt;.&lt;br/&gt;At these settings, Dozzle saves &lt;strong&gt;${fmt(t.svWater,1)} gal&lt;/strong&gt;, &lt;strong&gt;$${fmt(t.svCost,0)}&lt;/strong&gt;, &lt;strong&gt;${fmt(t.svPlas,1)} bottles&lt;/strong&gt;, and &lt;strong&gt;${fmt(t.svTime,2)} hours&lt;/strong&gt; per year.`;
+      }
+
+      // --- Inputs ---
+      const inputs = [
+        [&#x27;usesPerMonth&#x27;,&#x27;usesPerMonthVal&#x27;,&#x27;value&#x27;],
+        [&#x27;dozzlePrice&#x27;],[&#x27;hosePrice&#x27;],
+        [&#x27;dozzleUsesPerBottle&#x27;],[&#x27;hoseUsesPerBottle&#x27;],
+        [&#x27;dozzleWaterOz&#x27;],[&#x27;hoseWaterGal&#x27;],
+        [&#x27;dozzleSetupSec&#x27;],[&#x27;hoseSetupMin&#x27;]
+      ];
+
+      inputs.forEach(([id, mirror, prop])=&gt;{
+        const el = $(id); if(!el) return;
+        const sync = ()=&gt;{
+          const v = el.type===&#x27;range&#x27; || el.type===&#x27;number&#x27; ? parseFloat(el.value) : el.value;
+          state[id] = isNaN(v)? 0 : v;
+          if(mirror){ $(mirror).textContent = el[prop||&#x27;value&#x27;]; }
+          calc();
+        };
+        el.addEventListener(&#x27;input&#x27;, sync);
+        sync();
+      });
+
+      // --- Tests ---
+      const runBtn = $(&#x27;runTests&#x27;);
+      const out = $(&#x27;testOutput&#x27;);
+      function runTests(){
+        try{
+          const close = (a,b,eps=0.2)=&gt; Math.abs(a-b) &lt;= eps;
+
+          // Test 1: defaults (4 uses/mo)
+          const t1 = computeTotals({...state, usesPerMonth:4, dozzleUsesPerBottle:26, hoseUsesPerBottle:1, dozzlePrice:19.99, hosePrice:15, dozzleWaterOz:8.8, hoseWaterGal:8.25, dozzleSetupSec:0, hoseSetupMin:10});
+          const ok1 = close(t1.svWater,392.7,0.2) &amp;&amp; close(t1.svPlas,46.15,0.2) &amp;&amp; close(t1.svTime,8.00,0.01) &amp;&amp; Math.round(t1.svCost)===683;
+
+          // Test 2: zero use = zero savings
+          const t2 = computeTotals({...state, usesPerMonth:0});
+          const ok2 = t2.svWater===0 &amp;&amp; t2.svCost===0 &amp;&amp; t2.svPlas===0 &amp;&amp; t2.svTime===0;
+
+          // Test 3: 12 uses/mo sanity (water math)
+          const t3 = computeTotals({...state, usesPerMonth:12});
+          const expectedWater = 12*12*8.25 - (12*12*8.8)/128; // 144 uses/year
+          const ok3 = close(t3.svWater, expectedWater, 0.2);
+
+          // Test 4: equal price &amp; uses/bottle -&gt; $ savings = 0
+          const t4 = computeTotals({...state, usesPerMonth:8, dozzlePrice:10, hosePrice:10, dozzleUsesPerBottle:20, hoseUsesPerBottle:20});
+          const ok4 = close(t4.svCost, 0, 1e-9);
+
+          // Test 5: water parity -&gt; ~0 gal saved
+          const t5 = computeTotals({...state, usesPerMonth:10, dozzleWaterOz:8.25*128, hoseWaterGal:8.25});
+          const ok5 = close(t5.svWater, 0, 0.2);
+
+          if(ok1 &amp;&amp; ok2 &amp;&amp; ok3 &amp;&amp; ok4 &amp;&amp; ok5){ out.innerHTML = &#x27;&lt;span class=&quot;pass&quot;&gt;All tests passed.&lt;/span&gt;&#x27;; }
+          else{
+            out.innerHTML = &#x27;&lt;span class=&quot;fail&quot;&gt;Some tests failed.&lt;/span&gt;&#x27; +
+              `&lt;pre&gt;${JSON.stringify({t1:{svWater:t1.svWater, svCost:t1.svCost, svPlas:t1.svPlas, svTime:t1.svTime}, t2, t3:{svWater:t3.svWater, expectedWater}, t4:{svCost:t4.svCost}, t5:{svWater:t5.svWater}}, null, 2)}&lt;/pre&gt;`;
+          }
+        }catch(e){ out.innerHTML = &#x27;&lt;span class=&quot;fail&quot;&gt;Tests crashed:&lt;/span&gt; &#x27; + e.message; }
+      }
+      runBtn.addEventListener(&#x27;click&#x27;, runTests);
+
+      // Initial render
+      calc();
+    });
+  })();
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
