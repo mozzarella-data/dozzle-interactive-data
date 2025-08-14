@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>One Dog. One Human. One Billion.</title>
+<style>
+:root{--green:#136a40;--yellow:#ffc700;--cream:#fffbf0;--ink:#143024}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.45 Inter,system-ui,-apple-system}
+.wrap{max-width:1000px;margin:0 auto;padding:20px}
+.card{background:#fff;border:1px solid #e7eee7;border-radius:16px;padding:16px;box-shadow:0 6px 24px rgba(20,48,36,.06)}
+h1{margin:0 0 6px;font-size:22px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.row{display:grid;grid-template-columns:1fr 160px;gap:8px;align-items:center}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.kpi div{background:#f8fbf8;border:1px solid #e7eee7;border-radius:12px;padding:10px;text-align:center}
+.btn{padding:8px 12px;border-radius:10px;background:var(--green);color:#fff;border:0;cursor:pointer}
+canvas{width:100%;height:auto;border:1px solid #e7eee7;border-radius:12px;background:#fff}
+</style>
+<div class="wrap">
+  <h1>One Dog. One Human. One Billion.</h1>
+  <div class="card">
+    <div class="grid">
+      <div class="row"><label>Units sold</label><input id="sold" type="number" value="1000"></div>
+      <div class="row"><label>Pledged switches</label><input id="pledge" type="number" value="2500"></div>
+      <div class="row"><label>Goal (gallons)</label><input id="goal" type="number" value="1000000000"></div>
+    </div>
+    <div class="kpi">
+      <div><div id="gal"><b>—</b></div><small>Gallons saved / year</small></div>
+      <div><div id="pct"><b>—</b></div><small>% of goal</small></div>
+      <div><div id="need"><b>—</b></div><small>More switches to hit 1B</small></div>
+    </div>
+    <p><button class="btn" onclick="renderCard()">Create Share Image</button>
+       <a id="dl" class="btn" download="dozzle-one-one-one.png" style="margin-left:8px;display:none">Download</a></p>
+    <canvas id="card" width="1200" height="630"></canvas>
+  </div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+function calc(){
+  const sold=+$('sold').value, pledge=+$('pledge').value, goal=+$('goal').value;
+  const switches=sold+pledge, gallons=switches*400;
+  const pct=goal? (gallons/goal*100):0;
+  const need=Math.max(0, Math.ceil((goal-gallons)/400));
+  $('gal').innerHTML=`<b>${gallons.toLocaleString()}</b>`;
+  $('pct').innerHTML=`<b>${pct.toFixed(2)}%</b>`;
+  $('need').innerHTML=`<b>${need.toLocaleString()}</b>`;
+}
+['sold','pledge','goal'].forEach(id=>$(id).addEventListener('input',calc)); calc();
+
+function renderCard(){
+  const c=$('card'),x=c.getContext('2d'); const w=c.width,h=c.height;
+  const sold=+$('sold').value, pledge=+$('pledge').value, sw=sold+pledge, gal=sw*400;
+  const pct=gal/1000000000*100;
+
+  x.fillStyle="#143024"; x.fillRect(0,0,w,h);
+  // headline
+  x.fillStyle="#ffc700"; x.font="bold 64px Inter,system-ui"; x.fillText("One Dog. One Human. One Billion.", 60,110);
+  // meter
+  x.fillStyle="#1c915d"; x.fillRect(60,160,w-120,40);
+  x.fillStyle="#ffc700"; x.fillRect(60,160,(w-120)*Math.min(pct/100,1),40);
+  x.fillStyle="#fffbf0"; x.font="600 24px Inter"; x.fillText(`${pct.toFixed(2)}% to goal`, 60,155);
+  // numbers
+  x.font="600 44px Inter"; x.fillText(`${gal.toLocaleString()} gallons saved/yr`, 60,260);
+  x.font="400 26px Inter"; x.fillText(`${sw.toLocaleString()} switches (sold + pledged)`, 60,300);
+  x.font="400 22px Inter"; x.fillText("Each switch ≈ 400 gallons/yr saved", 60,335);
+  // badge
+  x.fillStyle="#ffc700"; x.beginPath(); x.arc(w-140,120,60,0,Math.PI*2); x.fill();
+  x.fillStyle="#143024"; x.font="700 22px Inter"; x.fillText("DOZZLE", w-190,115); x.font="600 18px Inter"; x.fillText("WATER SAVED", w-210,140);
+  // CTA
+  x.fillStyle="#fffbf0"; x.font="600 22px Inter"; x.fillText("Join at dozzlepets.com", 60, h-80);
+  $('dl').href=c.toDataURL("image/png"); $('dl').style.display='inline-block';
+}
+</script>
