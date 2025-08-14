@@ -1,0 +1,117 @@
+<!DOCTYPE html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Foam Dwell-Time — Dozzle</title>
+<style>
+:root{--green:#136a40;--yellow:#ffc700;--cream:#fffbf0;--ink:#143024;--accent:#a77a50}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+.wrap{max-width:1000px;margin:0 auto;padding:20px}
+.card{background:#fff;border:1px solid #e7eee7;border-radius:16px;padding:16px;box-shadow:0 6px 24px rgba(20,48,36,.06)}
+h1{margin:0 0 6px;font-size:22px}.sub{opacity:.85;font-size:14px;margin-bottom:16px}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px}
+.row{display:grid;grid-template-columns:1fr 160px;gap:8px;align-items:center}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.kpi div{background:#f8fbf8;border:1px solid #e7eee7;border-radius:12px;padding:10px;text-align:center}
+.btn{padding:8px 12px;border-radius:10px;background:var(--green);color:#fff;border:0;cursor:pointer}
+canvas{width:100%;height:auto;border:1px solid #e7eee7;border-radius:12px;background:#0d1b12}
+.legend{display:flex;gap:14px;align-items:center;margin-top:8px;font-size:14px}
+.dot{width:10px;height:10px;border-radius:50%}
+</style>
+<div class="wrap">
+  <h1>Foam Dwell-Time Visualizer</h1>
+  <div class="sub">Foam keeps enzymes moist/active longer. Heat speeds drying; humidity slows it. Watch bubbles evaporate.</div>
+  <div class="card">
+    <div class="controls">
+      <div class="row"><label>Temperature (°F)</label><input id="temp" type="range" min="40" max="110" value="80"></div>
+      <div class="row"><label>Humidity (%)</label><input id="hum" type="range" min="5" max="95" value="35"></div>
+      <div class="row"><label>Wind (mph)</label><input id="wind" type="range" min="0" max="25" value="3"></div>
+      <div class="row"><label>Sun exposure</label><input id="sun" type="range" min="0" max="100" value="60"></div>
+    </div>
+    <div class="kpi">
+      <div><div id="foamT"><b>—</b></div><small>Foam moist/active (min)</small></div>
+      <div><div id="liqT"><b>—</b></div><small>Liquid spray (min)</small></div>
+      <div><div id="x"><b>—</b></div><small>Foam vs liquid (× slower to dry)</small></div>
+    </div>
+    <div class="legend">
+      <div class="dot" style="background:#66ffb2"></div> <span>Wet/active foam</span>
+      <div class="dot" style="background:#ffd166"></div> <span>Partially dry film</span>
+      <div class="dot" style="background:#8d99ae"></div> <span>Dry</span>
+      <button id="toggle" class="btn" style="margin-left:auto">Pause</button>
+      <button id="reset" class="btn" style="background:#1c915d">Reset</button>
+    </div>
+    <canvas id="cv" width="1000" height="420"></canvas>
+    <p style="opacity:.75;margin-top:8px">Model baseline: 12 min dwell at 75°F, 30% RH, 0 mph, medium sun. Liquid spray dries ≈3× faster (assumption).</p>
+  </div>
+</div>
+<script>
+const el=(id)=>document.getElementById(id);
+const temp=el('temp'), hum=el('hum'), wind=el('wind'), sun=el('sun');
+const foamT=el('foamT'), liqT=el('liqT'), xOut=el('x');
+const cv=el('cv'), ctx=cv.getContext('2d'); let running=true;
+el('toggle').onclick=()=>{running=!running; el('toggle').textContent=running?'Pause':'Play'};
+el('reset').onclick=()=>init();
+
+function dwellMinutes(T, RH, W, S){ // simple physics-inspired model
+  // temp: +1°F above 75 reduces 1.5%; below 75 adds 1%
+  let dwell=12;
+  const dT=T-75; dwell*= dT>0 ? (1-0.015*dT) : (1-0.01*dT);
+  // humidity: 5% → -20%, 95% → +40%
+  const rh=1+((RH-30)/65)*0.4; dwell*=rh;
+  // wind: each 5 mph cuts ~10%
+  dwell*= Math.max(0.4, 1 - (W/5)*0.10);
+  // sun: each +20% sun cuts ~6%
+  dwell*= Math.max(0.5, 1 - (S/20)*0.06);
+  dwell=Math.max(2.5, Math.min(30, dwell));
+  return dwell;
+}
+
+const BUBS=180; let bubbles=[];
+function init(){
+  // create bubbles with random radius; each holds "moisture" over time
+  bubbles=[...Array(BUBS)].map(()=>({
+    x: Math.random()*cv.width,
+    y: 280 + Math.random()*100,
+    r: 6+Math.random()*16,
+    m: 1, // moisture 1→0
+    pop: false
+  }));
+  t0=performance.now();
+}
+let t0=0;
+
+function update(){
+  const T=+temp.value, RH=+hum.value, W=+wind.value, S=+sun.value;
+  const foam=dwellMinutes(T,RH,W,S);
+  const liquid=Math.max(1.2, foam/3);
+  foamT.innerHTML = `<b>${foam.toFixed(1)}</b>`;
+  liqT.innerHTML  = `<b>${liquid.toFixed(1)}</b>`;
+  xOut.innerHTML  = `<b>${(foam/liquid).toFixed(1)}×</b>`;
+
+  // convert dwell (min) to per-frame moisture decay
+  const secs=foam*60, dt=1/60; const decay=dt/secs*1.2; // slightly faster near end
+  bubbles.forEach(b=>{
+    if(!running) return;
+    b.m -= decay * (1 + (b.r-6)/40); // big bubbles evaporate a bit faster
+    if(b.m<=0){ b.m=0; b.pop=true; }
+    // subtle upward drift while moist
+    if(b.m>0.2){ b.y -= 0.05 + W*0.01; b.x += (Math.random()-0.5)*0.4; }
+  });
+
+  // draw
+  ctx.clearRect(0,0,cv.width,cv.height);
+  // turf hint
+  ctx.fillStyle="#08351f"; ctx.fillRect(0,300,cv.width,120);
+  ctx.fillStyle="#0b4c2b"; for(let i=0;i<200;i++){ ctx.fillRect(Math.random()*cv.width, 300+Math.random()*120, 2, 8); }
+  bubbles.forEach(b=>{
+    const state = b.m>0.6? 'wet' : b.m>0.15? 'film' : 'dry';
+    if(state==='wet') ctx.fillStyle="rgba(102,255,178,0.9)";
+    if(state==='film') ctx.fillStyle="rgba(255,209,102,0.9)";
+    if(state==='dry') ctx.fillStyle="rgba(141,153,174,0.9)";
+    ctx.beginPath(); ctx.arc(b.x,b.y, b.r*(0.6+0.4*b.m), 0, Math.PI*2); ctx.fill();
+    // pop sparkle
+    if(b.pop){ ctx.fillStyle="rgba(255,255,255,.7)"; for(let k=0;k<6;k++){ ctx.fillRect(b.x+(Math.random()-0.5)*b.r*2, b.y+(Math.random()-0.5)*b.r*2, 2,2);} b.pop=false;}
+  });
+
+  requestAnimationFrame(update);
+}
+[temp,hum,wind,sun].forEach(i=>i.addEventListener('input',()=>{ /* forces recompute */ }));
+init(); update();
+</script>
