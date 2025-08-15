@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu Builder – Pet Waste Odor Control</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #fafafa;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    button {
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div id="menu-maker" class="card">
+  <h3 style="margin-top:0">Build your odor control menu</h3>
+  <p style="margin:6px 0 14px;opacity:.8">Set local prices. We’ll format a printable menu you can use today.</p>
+
+  <div style="display:grid;gap:10px;grid-template-columns:repeat(3,1fr);max-width:860px">
+    <label>Base price (≤500 sq ft) $
+      <input id="base" type="number" value="20" min="0" step="1">
+    </label>
+    <label>Extra 500 sq ft $
+      <input id="addon" type="number" value="10" min="0" step="1">
+    </label>
+    <label>Weekly plan +$/mo
+      <input id="weekly" type="number" value="10" min="0" step="1">
+    </label>
+  </div>
+
+  <div style="display:grid;gap:10px;grid-template-columns:repeat(3,1fr);max-width:860px;margin-top:10px">
+    <label>One-time clean (min) $
+      <input id="onetime" type="number" value="45" min="0" step="1">
+    </label>
+    <label>Labor rate $/hr
+      <input id="wage" type="number" value="25" min="0" step="1">
+    </label>
+    <label>Chem cost per app (auto)
+      <input id="chem" type="text" value="$0.90" disabled style="background:#f9f9f9">
+    </label>
+  </div>
+
+  <div style="display:flex;gap:8px;margin:12px 0">
+    <button id="makeMenu" style="border:1px solid #136a40">Create menu</button>
+    <button id="copyMenu" style="border:1px solid #ddd">Copy to clipboard</button>
+    <button id="downloadMenu" style="border:1px solid #ddd">Download PNG</button>
+  </div>
+
+  <div id="menuPreview" style="border:1px dashed #ddd;border-radius:12px;padding:16px">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<script>
+(function(){
+  const fmt = (n)=> `$${Number(n).toFixed(2)}`;
+  const el = (id)=> document.getElementById(id);
+
+  function render(){
+    const base = +el('base').value||0;
+    const addon= +el('addon').value||0;
+    const weekly= +el('weekly').value||0;
+    const onetime= +el('onetime').value||0;
+
+    const html = `
+      <div style="font-family:system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+        <h3 style="margin:0 0 8px">Odor Control – Turf & Runs</h3>
+        <ul style="list-style:none;padding:0;margin:0;display:grid;gap:8px">
+          <li style="display:flex;justify-content:space-between"><span>Standard (≤500 sq ft)</span><strong>${fmt(base)}</strong></li>
+          <li style="display:flex;justify-content:space-between"><span>Each extra 500 sq ft</span><strong>+${fmt(addon)}</strong></li>
+          <li style="display:flex;justify-content:space-between"><span>Weekly plan add-on</span><strong>+${fmt(weekly)}/mo</strong></li>
+          <li style="display:flex;justify-content:space-between;opacity:.8"><span>One-time deep clean (min)</span><strong>${fmt(onetime)}</strong></li>
+        </ul>
+        <p style="margin:10px 0 0;opacity:.7;font-size:14px">Fast 30-second foam application. No hose required. Pet-safe enzymes.</p>
+      </div>`;
+    el('menuPreview').innerHTML = html;
+  }
+
+  function copyToClipboard(){
+    const tmp = document.createElement('textarea');
+    tmp.value = el('menuPreview').innerText;
+    document.body.appendChild(tmp); tmp.select(); document.execCommand('copy'); document.body.removeChild(tmp);
+    alert('Menu copied.');
+  }
+
+  async function downloadPNG(){
+    const node = el('menuPreview');
+    const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="${node.clientWidth}" height="${node.clientHeight}">
+        <foreignObject width="100%" height="100%">${new XMLSerializer().serializeToString(node)}</foreignObject>
+      </svg>`;
+    const blob = new Blob([svg], {type:'image/svg+xml;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+    img.onload = function(){
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width; canvas.height = img.height;
+      const ctx = canvas.getContext('2d'); ctx.drawImage(img,0,0);
+      URL.revokeObjectURL(url);
+      const a = document.createElement('a');
+      a.download = 'Odor-Control-Menu.png';
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    };
+    img.src = url;
+  }
+
+  document.getElementById('makeMenu').addEventListener('click', render);
+  document.getElementById('copyMenu').addEventListener('click', copyToClipboard);
+  document.getElementById('downloadMenu').addEventListener('click', downloadPNG);
+  window.addEventListener('DOMContentLoaded', render);
+})();
+</script>
+</body>
+</html>
