@@ -1,0 +1,357 @@
+<!-- DOZZLEPETS — 2025 MOCKUP LANDER -->
+<!-- Paste into a Custom Liquid block or save as a standalone .html and open in a browser -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DozzlePets — Turf Odor, Solved.</title>
+<style>
+:root{
+  --green:#136a40; --yellow:#ffc700; --cream:#fffbf0; --ink:#111; --muted:#6a6a6a; --soft:#1c915d; --earth:#a77a50;
+}
+*{box-sizing:border-box} html,body{margin:0;padding:0}
+body{font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff;line-height:1.45}
+.container{max-width:1120px;margin:0 auto;padding:20px}
+.btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
+.btn--primary{background:var(--green);color:#fff;box-shadow:0 4px 0 #0d4a2b}
+.btn--ghost{background:transparent;border:2px solid var(--green);color:var(--green)}
+.badge{display:inline-flex;gap:8px;align-items:center;background:var(--cream);border:1px solid #eee;border-radius:999px;padding:6px 10px;font-size:12px}
+.kicker{font-weight:700;color:var(--soft);letter-spacing:.05em;text-transform:uppercase;font-size:12px}
+h1{font-size:clamp(28px,4.2vw,56px);line-height:1.05;margin:10px 0}
+h2{font-size:clamp(22px,3vw,34px);margin:0 0 10px}
+h3{font-size:20px;margin:0 0 8px}
+p{margin:8px 0}
+.grid{display:grid;gap:20px}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;padding:24px;border-radius:20px;background:linear-gradient(180deg,#fff, #f8fff6)}
+@media (max-width:900px){.hero{grid-template-columns:1fr}}
+.hero .stats{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.hero .stat{background:#fff;border:1px solid #eee;border-radius:12px;padding:10px 12px;font-size:12px}
+.announce{background:var(--cream);border:1px solid #eee;border-radius:14px;padding:10px 14px;display:flex;gap:10px;align-items:center;font-size:14px}
+.announce strong{color:var(--earth)}
+/* Press-to-spray demo */
+.demo{margin-top:10px;border:1px solid #eee;border-radius:16px;padding:16px;background:#fff}
+.demo .rig{position:relative;background:var(--cream);border:1px solid #eee;border-radius:12px;padding:16px;text-align:center}
+.demo .sprayer{display:flex;align-items:center;gap:12px;justify-content:center}
+.demo .poozooka{width:min(420px,90%);height:auto}
+.demo .spray-btn{appearance:none;border:0;padding:12px 16px;border-radius:10px;background:var(--green);color:#fff;font-weight:700;cursor:pointer;box-shadow:0 4px 0 #0d4a2b;transition:transform .05s}
+.demo .spray-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #0d4a2b}
+.demo .spray-area{position:relative;height:140px;margin-top:12px;overflow:hidden;background:#fff;border-radius:10px;border:1px dashed #ddd}
+.demo .foam{position:absolute;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #fff, #eef);opacity:.95;pointer-events:none;filter:drop-shadow(0 1px 1px rgba(0,0,0,.1));animation:drift 1.2s linear forwards}
+@keyframes drift{0%{transform:translateX(0) translateY(0) scale(1);opacity:.95} 80%{opacity:.9} 100%{transform:translateX(240px) translateY(-20px) scale(1.6);opacity:0}}
+.demo .rig.shake{animation:shake .12s linear infinite}
+@keyframes shake{0%{transform:translateX(0)} 50%{transform:translateX(1px)} 100%{transform:translateX(0)}}
+.demo .hint{font-size:12px;color:#666;margin-top:8px}
+
+/* Counter */
+.counter{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center;border:1px solid #eee;border-radius:16px;padding:16px;background:#fff}
+@media (max-width:700px){.counter{grid-template-columns:1fr}}
+.counter .big{font-weight:800;font-size:clamp(24px,5vw,48px);color:var(--green)}
+.counter .note{font-size:12px;color:#666}
+
+/* Ingredient cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:900px){.cards{grid-template-columns:1fr}}
+.card{border:1px solid #eee;border-radius:14px;padding:14px;background:#fff}
+.card .pill{display:inline-block;background:#f2f8f5;border:1px solid #e2eee6;border-radius:999px;padding:4px 8px;font-size:12px;color:var(--soft)}
+.card details{margin-top:10px}
+.card details summary{cursor:pointer;font-weight:700}
+
+/* B2B */
+.b2b{display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:start}
+@media (max-width:900px){.b2b{grid-template-columns:1fr}}
+.logo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.logo{height:48px;background:#fafafa;border:1px dashed #ddd;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:12px}
+
+/* Forms */
+.form{display:grid;gap:10px}
+.input{width:100%;padding:12px 12px;border:1px solid #ddd;border-radius:10px;font-size:14px}
+.small{font-size:12px;color:#666}
+
+/* Footer */
+.footer{margin-top:24px;padding:16px;border-top:1px solid #eee;color:#666;font-size:12px}
+
+/* Digital yard banner sticky on mobile */
+.sticky-banner{position:sticky;top:0;z-index:10;background:var(--yellow);color:#000;padding:10px 14px;border-bottom:1px solid #e6c500;text-align:center}
+.sticky-banner strong{white-space:nowrap}
+</style>
+</head>
+<body>
+
+<div class="sticky-banner">
+  <strong>Welcome to our digital yard.</strong> We’re still tidying—pardon the weeds. The turf magic is very real.
+</div>
+
+<div class="container">
+
+  <!-- Hero -->
+  <section class="hero" id="top">
+    <div>
+      <div class="kicker">DozzlePets</div>
+      <h1>Turf odor, solved in 30 seconds. No hose. Just foam.</h1>
+      <p>One human. One dog. One billion gallons saved.</p>
+      <div class="stats">
+        <div class="stat">~97% less water vs hose-end*</div>
+        <div class="stat">Kid & pet safe</div>
+        <div class="stat">3 simple ingredients</div>
+        <div class="stat">Foam = longer enzyme dwell time</div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
+        <a href="#demo" class="btn btn--primary">Try the Spray</a>
+        <a href="#b2b" class="btn btn--ghost">For Properties / B2B</a>
+      </div>
+      <p class="small" style="margin-top:8px;color:#666">*Dozzle test: 14 vs 429 gal/yr. See blog for method.</p>
+    </div>
+    <div>
+      <div class="announce">
+        <span class="badge">👋 Underdog story</span>
+        <span>It’s just me and Mozzie building this. Real manufacturer. Real results. Website renovations in progress.</span>
+      </div>
+      <div class="demo" id="demo">
+        <h3 style="margin:0 0 6px">Press to Spray</h3>
+        <p class="small" style="margin:0 0 10px">Feel the foam. Hear the motor. Android vibrates. iPhone rumbles visually.</p>
+        <div class="rig" id="rig">
+          <div class="sprayer">
+            <!-- Replace with your product image in Shopify: upload poozooka.png to Settings → Files and use asset_url below -->
+            <!-- <img src="{{ 'poozooka.png' | asset_url }}" class="poozooka" alt="Poozooka sprayer"> -->
+            <svg viewBox="0 0 320 180" class="poozooka" aria-label="Poozooka sprayer">
+              <rect x="18" y="70" width="170" height="48" rx="12" fill="black" opacity="0.85"/>
+              <rect x="50" y="38" width="104" height="26" rx="6" fill="gray"/>
+              <rect x="200" y="86" width="110" height="10" rx="5" fill="#333"/>
+              <circle cx="70" cy="132" r="23" fill="#222"/>
+              <circle cx="70" cy="132" r="16" fill="#555"/>
+              <rect x="118" y="108" width="50" height="18" rx="6" fill="var(--green)"/>
+            </svg>
+          </div>
+          <div style="margin:10px 0">
+            <button class="spray-btn" id="sprayBtn" aria-pressed="false">Press & Hold to Spray</button>
+          </div>
+          <div class="spray-area" id="sprayArea" aria-hidden="true"></div>
+          <div class="hint">Tip: hold for ~2 seconds. Release to stop.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Water counter -->
+  <section style="margin-top:24px">
+    <div class="counter">
+      <div>
+        <div class="kicker">Mission</div>
+        <h2>One Dog. One Human. One Billion Gallons.</h2>
+        <p>Every hose you skip matters. This counter shows a demo of water saved if more folks switch to foam.</p>
+        <p class="note">Demo counter. Replace with your real metric later.</p>
+      </div>
+      <div style="text-align:center">
+        <div class="big" id="gallons">0</div>
+        <div class="small">gallons saved (demo)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ingredient transparency -->
+  <section style="margin-top:24px">
+    <div class="grid">
+      <div>
+        <div class="kicker">Transparent by design</div>
+        <h2>Only 3 ingredients. Nothing weird.</h2>
+        <p>Simple formula. Powerful result. Safe for pets, kids, and plants.</p>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <span class="pill">Water</span>
+          <h3>Carrier</h3>
+          <p>Just enough to activate and spread enzymes.</p>
+          <details><summary>Learn more</summary><p>Supports enzyme dispersion without harsh solvents.</p></details>
+        </div>
+        <div class="card">
+          <span class="pill">Coco Betaine</span>
+          <h3>Foam builder</h3>
+          <p>Makes the long-lasting foam layer.</p>
+          <details><summary>Why foam wins</summary><p>Foam keeps enzymes moist on the surface longer, improving dwell time vs. typical sprays.</p></details>
+        </div>
+        <div class="card">
+          <span class="pill">Enzyme Blend</span>
+          <h3>Odor eliminator</h3>
+          <p>Targets urine compounds at the source.</p>
+          <details><summary>Activity</summary><p>Breaks down odor-causing organics safely; no masking perfumes.</p></details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- B2B trust + property demo -->
+  <section id="b2b" style="margin-top:24px">
+    <div class="b2b">
+      <div>
+        <div class="kicker">For properties & ops teams</div>
+        <h2>Fewer complaints. Faster routines. Lower water bills.</h2>
+        <ul>
+          <li>Portable, battery-powered foamer — no hose needed.</li>
+          <li>30-second daily spray routine keeps odors down.</li>
+          <li>Refill model = predictable consumable cost.</li>
+        </ul>
+        <div style="margin:12px 0;display:flex;gap:10px;flex-wrap:wrap">
+          <a href="#demo-form" class="btn btn--primary">Request a Demo</a>
+          <a href="#pricing" class="btn btn--ghost">Bulk Pricing (coming soon)</a>
+        </div>
+        <p class="small">Psst—want us to pilot at a San Diego property? We’ll handle setup and training.</p>
+      </div>
+      <div>
+        <div class="kicker">Social proof</div>
+        <p style="margin-top:0">In active conversations with national property operators and supplier networks.</p>
+        <div class="logo-grid" aria-label="placeholder logos">
+          <div class="logo">Your Logo</div>
+          <div class="logo">Supplier</div>
+          <div class="logo">Operator</div>
+          <div class="logo">Turf Co.</div>
+          <div class="logo">Landscaper</div>
+          <div class="logo">Pet Care</div>
+        </div>
+        <p class="small" style="margin-top:8px;color:#666">Logos shown as placeholders. Replace with approved partners when confirmed.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo request form (Shopify contact form friendly) -->
+  <section id="demo-form" style="margin-top:24px">
+    <div class="grid" style="grid-template-columns:1fr 1fr">
+      <div>
+        <div class="kicker">Hands-on beats hype</div>
+        <h2>Request a property demo</h2>
+        <p>We’ll run a quick on-site spray, then leave a kit for a week so you can test the routine.</p>
+      </div>
+      <div>
+        <!-- If on a standard Shopify page, this posts to the default contact. -->
+        <form class="form" method="post" action="/contact#ContactFooter">
+          <input type="hidden" name="form_type" value="contact">
+          <input class="input" type="text" name="contact[name]" placeholder="Your name" required>
+          <input class="input" type="email" name="contact[email]" placeholder="Work email" required>
+          <input class="input" type="text" name="contact[company]" placeholder="Company / Property">
+          <input class="input" type="text" name="contact[location]" placeholder="City, State">
+          <textarea class="input" name="contact[body]" rows="4" placeholder="Tell us about your turf area & odor hotspots…"></textarea>
+          <button class="btn btn--primary" type="submit">Request Demo</button>
+          <div class="small">Prefer email? <a href="mailto:pupmail@dozzlepets.com">pupmail@dozzlepets.com</a></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bulk pricing email capture -->
+  <section id="pricing" style="margin-top:24px">
+    <div class="grid" style="grid-template-columns:1fr 1fr">
+      <div>
+        <div class="kicker">Bulk pricing</div>
+        <h2>Not live yet. Be first to know.</h2>
+        <p>We’re finalizing tiers with supplier networks. Drop your email; we’ll send the sheet when it’s ready.</p>
+      </div>
+      <div>
+        <!-- Newsletter subscribe: goes to Customers > Email subscribers in Shopify -->
+        <form class="form" method="post" action="/contact#ContactFooter">
+          <input type="hidden" name="form_type" value="customer">
+          <input class="input" type="email" name="contact[email]" placeholder="Work email" required>
+          <button class="btn btn--ghost" type="submit">Notify Me</button>
+          <div class="small">No spam. Just pricing + rollout dates.</div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div>© DozzlePets. Safe for pets, kids, and plants. Built in San Diego with help from Mozzie.</div>
+    <div class="small">Accessibility: keyboard navigable; color-contrast friendly; motion kept subtle. Contact us for alternate formats.</div>
+  </footer>
+</div>
+
+<script>
+/* ========== Press to Spray (sound + haptics) ========== */
+(() => {
+  const rig = document.getElementById('rig');
+  const btn = document.getElementById('sprayBtn');
+  const area = document.getElementById('sprayArea');
+
+  let audioCtx, motor, gain, noiseGain, running=false, foamTimer=null;
+
+  function initAudio(){
+    if (audioCtx) return;
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    // Motor tone
+    const osc = audioCtx.createOscillator();
+    osc.type = 'sawtooth'; osc.frequency.value = 85;
+    const g = audioCtx.createGain(); g.gain.value = 0;
+
+    // Air noise
+    const bufferSize = 2 * audioCtx.sampleRate;
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i=0;i<bufferSize;i++) data[i] = Math.random()*2-1;
+    const noise = audioCtx.createBufferSource(); noise.buffer = buffer; noise.loop = true;
+    const ng = audioCtx.createGain(); ng.gain.value = 0;
+
+    osc.connect(g).connect(audioCtx.destination);
+    noise.connect(ng).connect(audioCtx.destination);
+    osc.start(); noise.start();
+
+    motor = osc; gain = g; noiseGain = ng;
+  }
+
+  function startSpray(){
+    if (running) return; running = true;
+    btn.setAttribute('aria-pressed','true');
+    if (!audioCtx) initAudio();
+    audioCtx.resume && audioCtx.resume();
+    const t = audioCtx.currentTime || 0;
+    gain.gain.cancelScheduledValues(t); noiseGain.gain.cancelScheduledValues(t);
+    gain.gain.linearRampToValueAtTime(0.05, t + 0.05);
+    noiseGain.gain.linearRampToValueAtTime(0.08, t + 0.05);
+
+    if (navigator.vibrate){ navigator.vibrate([40,40,40,40]); }
+    else { rig.classList.add('shake'); }
+
+    foamTimer = setInterval(() => {
+      const b = area.getBoundingClientRect(); const yBase = b.height - 18;
+      for (let i=0;i<6;i++){
+        const dot = document.createElement('div'); dot.className = 'foam';
+        const y = yBase - Math.random()*16;
+        dot.style.left = '16px'; dot.style.top = y + 'px';
+        const s = 8 + Math.random()*8; dot.style.width = dot.style.height = s+'px';
+        area.appendChild(dot); setTimeout(()=>dot.remove(),1300);
+      }
+    }, 80);
+  }
+
+  function stopSpray(){
+    if (!running) return; running = false;
+    btn.setAttribute('aria-pressed','false');
+    if (audioCtx){
+      const t = audioCtx.currentTime || 0;
+      gain.gain.linearRampToValueAtTime(0.0001, t + 0.08);
+      noiseGain.gain.linearRampToValueAtTime(0.0001, t + 0.08);
+    }
+    navigator.vibrate && navigator.vibrate(0);
+    rig.classList.remove('shake');
+    if (foamTimer){ clearInterval(foamTimer); foamTimer = null; }
+  }
+
+  const down = ('ontouchstart' in window) ? 'touchstart' : 'pointerdown';
+  const up   = ('ontouchend' in window) ? 'touchend'   : 'pointerup';
+
+  btn.addEventListener(down, (e)=>{ e.preventDefault(); startSpray(); });
+  window.addEventListener(up, ()=> stopSpray());
+  btn.addEventListener('pointerleave', ()=> stopSpray());
+})();
+
+/* ========== Demo water counter (replace with real data later) ========== */
+(() => {
+  const el = document.getElementById('gallons');
+  // Start from a nice round demo number; persist in session so refresh doesn't reset instantly.
+  const key = 'dozzle_demo_gallons';
+  let val = Number(sessionStorage.getItem(key) || 123456);
+  function render(){ el.textContent = val.toLocaleString(); }
+  render();
+  setInterval(()=>{ val += Math.floor(1 + Math.random()*3); sessionStorage.setItem(key, String(val)); render(); }, 900);
+})();
+</script>
+
+</body>
+</html>
