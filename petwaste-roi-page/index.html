@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DozzlePets – Pet Waste B2B Landing (Mock)</title>
+  <style>
+    :root{
+      --green:#136a40; /* Dozzle green */
+      --green-soft:#1c915d; /* softer green */
+      --yellow:#ffc700; /* Dozzle yellow */
+      --cream:#fffbf0; /* background */
+      --ink:#0e0f0e;
+      --muted:#6b7280;
+      --card:#ffffff;
+      --border:#e5e7eb;
+      --radius:16px;
+      --shadow:0 6px 24px rgba(0,0,0,.06);
+      --max:980px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--cream);color:var(--ink);font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif}
+    a{color:var(--green);text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:24px}
+    .hero{position:relative;padding:64px 24px 40px;background:linear-gradient(180deg, #ffffff 0%, #fff8d9 100%);border-bottom:1px solid var(--border)}
+    .hero .wrap{display:grid;gap:16px;align-items:center}
+    .title{font-size:40px;line-height:1.1;margin:0 0 6px}
+    .sub{font-size:18px;color:var(--muted);margin:0 0 12px}
+    .cta-row{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 18px;border-radius:14px;border:1px solid var(--green);background:#fff;color:var(--green);font-weight:600;box-shadow:var(--shadow)}
+    .btn.primary{background:var(--green);color:#fff}
+    .btn.secondary{border-color:#cbd5e1;color:#111;background:#fff}
+    .pill{display:inline-block;background:#eaf6ee;color:var(--green);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:600}
+
+    /* Sections */
+    section{padding:28px 0}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+
+    .grid-3{display:grid;gap:14px;grid-template-columns:repeat(3,1fr)}
+    .grid-2{display:grid;gap:14px;grid-template-columns:repeat(2,1fr)}
+
+    .step{border-radius:14px;border:1px dashed var(--border);padding:14px}
+    .step h4{margin:0 0 6px;font-size:16px}
+    .muted{color:var(--muted)}
+
+    /* Iframes */
+    .iframe-wrap{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#fff}
+    .iframe{width:100%;height:980px;border:0;display:block}
+
+    /* Email form card */
+    .form label{display:block;font-weight:600;margin:0 0 6px}
+    .form input{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:12px}
+    .form .row{display:grid;gap:10px;grid-template-columns:1fr 1fr}
+
+    /* Sticky CTA */
+    .sticky{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--border);padding:10px 0;z-index:20}
+
+    /* Footer */
+    footer{padding:32px 0 56px;color:#64748b;font-size:14px}
+
+    @media (max-width:900px){
+      .title{font-size:32px}
+      .grid-3{grid-template-columns:1fr}
+      .grid-2{grid-template-columns:1fr}
+      .iframe{height:1100px}
+    }
+  </style>
+</head>
+<body>
+  <!-- HERO -->
+  <header class="hero">
+    <div class="wrap">
+      <span class="pill">For Pet Waste Removal Businesses</span>
+      <h1 class="title">Add $20 in 30 seconds.</h1>
+      <p class="sub">Hose-free odor control you can upsell at every stop. Foam on. Done.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="https://www.amazon.com/dp/B0DV3VWX8M" target="_blank" rel="noopener">Get Starter Bundle</a>
+        <a class="btn secondary" href="#roi">Run the ROI</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HOW IT WORKS -->
+  <section>
+    <div class="wrap">
+      <div class="grid-3">
+        <div class="step card">
+          <h4>1) Load it</h4>
+          <p class="muted">6 oz FoamZyme + water in the Poozooka.</p>
+        </div>
+        <div class="step card">
+          <h4>2) Spray it</h4>
+          <p class="muted">30-second foam pass on turf and runs.</p>
+        </div>
+        <div class="step card">
+          <h4>3) Collect $20</h4>
+          <p class="muted">Route-ready upsell. No hose. No spigot.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROI CALCULATOR (iframe embed) -->
+  <section id="roi">
+    <div class="wrap">
+      <div class="card" style="margin-bottom:12px">
+        <h3 style="margin:0 0 6px">ROI: What you make each week</h3>
+        <p class="muted" style="margin:0">Defaults: $20/app, ~$.90 chemical, 0.5 min labor. Edit in the tool.</p>
+      </div>
+      <div class="iframe-wrap">
+        <!-- Swap this src if your final path differs -->
+        <iframe class="iframe" src="https://data.dozzlepets.com/roi-petwaste/" title="ROI Calculator"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU BUILDER (iframe embed) -->
+  <section id="menu">
+    <div class="wrap">
+      <div class="card" style="margin-bottom:12px">
+        <h3 style="margin:0 0 6px">Make your pricing menu</h3>
+        <p class="muted" style="margin:0">Set local prices. Download a ready-to-use menu for customers.</p>
+      </div>
+      <div class="iframe-wrap">
+        <iframe class="iframe" src="https://data.dozzlepets.com/menu-builder-petwaste/" title="Pricing Menu Builder"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMAIL FORM / CHIEF LAB OFFICER -->
+  <section id="b2b">
+    <div class="wrap">
+      <div class="card form">
+        <h3 style="margin:0 0 6px">Mozzarella runs B2B.</h3>
+        <p class="muted" style="margin:0 0 14px">Bulk pricing + wholesale coming soon. Get notified first.</p>
+        <form id="contactForm" method="post" action="/contact#b2b">
+          <input type="hidden" name="form_type" value="contact" />
+          <input type="hidden" name="contact[tags]" value="B2B-Interest, Segment:PetWaste, Source:LandingPage" />
+          <div class="row">
+            <div>
+              <label>Email</label>
+              <input type="email" name="contact[email]" placeholder="work email" required />
+            </div>
+            <div>
+              <label>Company (optional)</label>
+              <input type="text" name="contact[company]" placeholder="company" />
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
+            <button type="submit" class="btn" style="border-color:var(--green);color:var(--green)">Join the B2B list</button>
+            <small class="muted">Zero spam. One Lab.</small>
+          </div>
+          <p id="mockSuccess" class="muted" style="display:none;margin-top:8px;color:var(--green)">Thanks! We’ll be in touch about B2B opportunities.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section>
+    <div class="wrap">
+      <div class="card" style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
+        <div>
+          <h3 style="margin:0 0 4px">Ready to add $20 per stop?</h3>
+          <p class="muted" style="margin:0">Most teams see payback day one. Try it on your next route.</p>
+        </div>
+        <a class="btn primary" href="https://www.amazon.com/dp/B0DV3VWX8M" target="_blank" rel="noopener">Get Starter Bundle</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky bottom CTA for mobile -->
+  <div class="sticky">
+    <div class="wrap" style="display:flex;justify-content:center">
+      <a class="btn primary" href="https://www.amazon.com/dp/B0DV3VWX8M" target="_blank" rel="noopener">Get Starter Bundle</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <p>© DozzlePets. Safe for pets, people, and plants. Built for turf and the dogs who pee on it.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll for in-page anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const id = a.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+      });
+    });
+
+    // Local preview: intercept form submit if not on your domain
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', function(e){
+      const onLocal = !location.hostname || location.protocol === 'file:';
+      if(onLocal){
+        e.preventDefault();
+        document.getElementById('mockSuccess').style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
