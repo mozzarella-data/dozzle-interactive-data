@@ -1,410 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dozzle vs Hose-End — Interactive Comparison</title>
-  <style>
-    :root{ --green:#136a40; --yellow:#ffc700; --cream:#fffbf0; --ink:#143024; --muted:#e9efe7; }
-    *{box-sizing:border-box}
-    body{margin:0; font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; color:var(--ink); background:var(--cream); line-height:1.35}
-    header{position:sticky; top:0; background:#ffffffcc; backdrop-filter:saturate(1.1) blur(8px); border-bottom:1px solid #eef2ee; z-index:5}
-    .wrap{max-width:1100px; margin:0 auto; padding:16px 20px}
-    h1{margin:4px 0 8px; font-size:24px}
-    .sub{font-size:13px; opacity:.8}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dozzle vs Hose-End: Interactive Comparison</title>
+<style>
+  :root {
+    --green: #136A40;     /* Dozzle green */
+    --yellow: #FFC700;    /* Dozzle yellow */
+    --bg: #FFFBF0;        /* Dozzle cream */
+    --text: #111827;
+    --muted: #6b7280;
+    --card: #ffffff;
+    --border: #e5e7eb;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: var(--bg); color: var(--text); }
+  .wrap { max-width: 1000px; margin: 24px auto; padding: 16px; }
+  .header { display:flex; align-items:center; gap:12px; margin-bottom: 8px; }
+  .dot { width:10px; height:10px; border-radius:50%; background:var(--green); }
+  h1 { font-size: 1.5rem; margin:0; }
+  .sub { color: var(--muted); font-size: 0.95rem; margin: 4px 0 16px; }
 
-    .grid{display:grid; gap:16px}
-    @media(min-width:900px){.grid{grid-template-columns: 1.1fr .9fr}}
-    .panel{background:#fff; border:1px solid #e7eee7; border-radius:16px; padding:16px; box-shadow:0 6px 24px rgba(20,48,36,.06)}
+  .controls { display:grid; grid-template-columns: 1fr; gap: 16px; margin: 12px 0 20px; }
+  @media (min-width: 720px) { .controls { grid-template-columns: 1fr 1fr; } }
+  .control { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
+  .control h3 { margin: 0 0 6px; font-size: 0.98rem; }
+  .row { display:flex; align-items:center; gap: 12px; }
+  .badge { display:inline-flex; align-items:center; gap:8px; padding: 4px 10px; border-radius: 999px; font-weight: 600; font-size: 0.85rem; }
+  .badge.dozzle { background: rgba(19,106,64,0.08); color: var(--green); border:1px solid rgba(19,106,64,0.15);}
+  .badge.hose { background: rgba(255,199,0,0.12); color: #7a5d00; border:1px solid rgba(255,199,0,0.25);}
+  input[type=range] { width: 100%; }
+  .value { font-variant-numeric: tabular-nums; min-width: 12ch; text-align: right; font-weight:600; }
+  .hint { color: var(--muted); font-size: 0.8rem; }
+  .btns { display:flex; gap: 10px; margin-top: 8px; }
+  button { background: var(--green); color: #fff; border: none; padding: 10px 14px; border-radius: 10px; cursor: pointer; font-weight: 600; }
+  button.secondary { background: #eef2ff; color: #1e40af; }
 
-    .controls{display:grid; gap:10px}
-    .controls .row{display:grid; grid-template-columns: 280px 1fr 80px; gap:10px; align-items:center}
-    .num{font-variant-numeric:tabular-nums; text-align:right}
+  .grid { display:grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 900px) { .grid { grid-template-columns: 1.1fr 0.9fr; } }
 
-    .assumptions{display:grid; gap:8px; margin-top:10px}
-    .assumptions .row{display:grid; grid-template-columns: 1fr 120px 1fr 120px; gap:10px; align-items:center}
-    .assumptions h3{font-size:12px; text-transform:uppercase; letter-spacing:.08em; margin:8px 0; opacity:.7}
-    .tag{display:inline-block; font-size:11px; padding:2px 8px; border-radius:999px; background:var(--muted); color:var(--green); font-weight:600}
+  table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  thead th { background: #f9fafb; color:#374151; text-transform: uppercase; letter-spacing: .02em; font-size: .78rem; font-weight: 700; padding: 10px 12px; border-bottom:1px solid var(--border); }
+  tbody td { padding: 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tbody tr:last-child td { border-bottom: none; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .savings { color: var(--green); font-weight: 700; }
+  .loss { color: #b91c1c; font-weight: 700; }
 
-    .cards{display:grid; gap:12px}
-    @media(min-width:700px){.cards{grid-template-columns:repeat(2,1fr)}}
-    .card{border:1px solid #e7eee7; border-radius:14px; padding:12px; background:#fff}
-    .card h3{margin:0 0 6px; font-size:14px}
+  .viz { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
+  .viz h3 { margin: 0 0 4px; font-size: 1rem; }
+  .barpair { margin: 8px 0 14px; }
+  .labelrow { display:flex; justify-content: space-between; font-size: .9rem; }
+  .bars { display:flex; align-items: center; gap: 8px; }
+  .bar { height: 16px; border-radius: 8px; background: #e5e7eb; position: relative; overflow: hidden; flex: 1; }
+  .bar > span { display:block; height: 100%; }
+  .bar .dozzle { background: var(--green); }
+  .bar .hose { background: var(--yellow); }
 
-    table{width:100%; border-collapse:separate; border-spacing:0; overflow:hidden; border-radius:12px; border:1px solid #e7eee7}
-    th,td{padding:10px 12px; border-bottom:1px solid #eef2ee; font-size:13px}
-    th{background:#f8fbf8; text-align:left}
-    tbody tr:last-child td{border:0}
-    .right{text-align:right; font-variant-numeric:tabular-nums}
-    .unit{opacity:.7; font-size:11px}
-
-    .tip{position:relative; border-bottom:1px dotted #9bb; cursor:help}
-    .tip::after{content:attr(data-tip); position:absolute; left:0; top:100%; transform:translateY(6px); background:#143024; color:#fff; padding:6px 8px; border-radius:8px; font-size:11px; line-height:1.2; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .2s}
-    .tip:hover::after{opacity:.95}
-
-    #chartWrap{position:relative; height:320px}
-
-    details{border:1px solid #e7eee7; border-radius:12px; padding:10px 12px; background:#fff}
-    details+details{margin-top:8px}
-    summary{font-weight:600; cursor:pointer}
-
-    .tests{font-size:12px; opacity:.9}
-    .pass{color:#136a40; font-weight:700}
-    .fail{color:#b00020; font-weight:700}
-  </style>
+  .summary { background: #f0fdf4; border: 1px solid #bbf7d0; color:#065f46; border-radius: 14px; padding: 14px; margin: 16px 0; white-space: pre-line; }
+  details { background: #fff; border:1px dashed var(--border); border-radius: 12px; padding: 12px; }
+  details summary { cursor:pointer; font-weight:600; }
+  .footnote { color: var(--muted); font-size: .8rem; margin-top: 10px; }
+  .smallcaps { font-variant: all-small-caps; letter-spacing: .03em; }
+</style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <h1>Dozzle vs. Hose‑End Sprayer — Interactive</h1>
-      <div class="sub">One slider controls both sides. Hover <span class="tip" data-tip="We show formulas inline where helpful.">ⓘ</span> for formulas. Open dropdowns for core data.</div>
+  <div class="wrap" id="dozzle-calculator" role="region" aria-label="Dozzle vs Hose-end comparison calculator">
+    <div class="header">
+      <span class="dot" aria-hidden="true"></span>
+      <h1>Dozzle vs Hose-end: Impact Calculator</h1>
     </div>
-  </header>
+    <p class="sub">Adjust how often you use each. We’ll compute annual water, cost, time, and bottles. Data is fixed from Dozzle’s internal sheet.</p>
 
-  <main class="wrap grid" id="app">
-    <section class="panel">
-      <div class="controls">
-        <div class="row">
-          <label>Uses per month: Dozzle vs Hose‑end Sprayer</label>
-          <input id="usesPerMonth" type="range" min="0" max="60" step="1" value="4" />
-          <div class="num"><span id="usesPerMonthVal">4</span></div>
+    <div class="controls" aria-describedby="control-hint">
+      <div class="control">
+        <div class="row" style="justify-content:space-between;">
+          <h3><span class="badge dozzle">Dozzle frequency</span></h3>
+          <div class="value"><span id="v-dozzle">4x per Week</span></div>
         </div>
+        <!-- Dozzle: 1–7x/week (no zero) -->
+        <input id="slider-dozzle" type="range" min="1" max="7" step="1" value="4" aria-label="Dozzle uses per week" />
+        <div class="hint">1–7× per week (Dozzle can be used daily)</div>
       </div>
-
-      <div class="assumptions">
-        <h3>Assumptions (editable)</h3>
-        <div class="row">
-          <div>Dozzle price per 32oz bottle</div>
-          <input id="dozzlePrice" type="number" step="0.01" value="19.99" />
-          <div>Hose‑end price per bottle</div>
-          <input id="hosePrice" type="number" step="0.01" value="15.00" />
+      <div class="control">
+        <div class="row" style="justify-content:space-between;">
+          <h3><span class="badge hose">Hose-end frequency</span></h3>
+          <div class="value"><span id="v-hose">1x per Week</span></div>
         </div>
-        <div class="row">
-          <div>Dozzle uses per bottle <span class="tag" title="Spreadsheet core data uses 26.7; defaults follow your screenshot">26</span></div>
-          <input id="dozzleUsesPerBottle" type="number" step="0.1" value="26" />
-          <div>Hose‑end uses per bottle <span class="tag" title="Spreadsheet showed 7.5; your screenshot uses 1">1</span></div>
-          <input id="hoseUsesPerBottle" type="number" step="0.1" value="1" />
-        </div>
-        <div class="row">
-          <div>Dozzle water per use (oz) <span class="tag">8.8</span></div>
-          <input id="dozzleWaterOz" type="number" step="0.1" value="8.8" />
-          <div>Hose‑end water per use (gal) <span class="tag">8.25</span></div>
-          <input id="hoseWaterGal" type="number" step="0.01" value="8.25" />
-        </div>
-        <div class="row">
-          <div>Dozzle setup time per use (sec) <span class="tag">0</span></div>
-          <input id="dozzleSetupSec" type="number" step="1" value="0" />
-          <div>Hose‑end setup time per use (min) <span class="tag">10</span></div>
-          <input id="hoseSetupMin" type="number" step="0.5" value="10" />
-        </div>
-
-        <details>
-          <summary>Dozzle Core Data</summary>
-          <ul>
-            <li>FoamZyme per Use: <strong>1.2 oz</strong> (per ~100 sqft)</li>
-            <li>Water per Use: <strong>8.8 oz</strong></li>
-            <li>Sqft per Use: <strong>100 sqft</strong></li>
-            <li>Uses per Tank: <strong>5</strong> (50 oz = 6 oz FoamZyme + 44 oz water)</li>
-            <li>FoamZyme per Tank: <strong>6 oz</strong></li>
-            <li>Water per Tank: <strong>44 oz</strong></li>
-            <li>Cost per Use: <strong>$0.82</strong> (21.99 ÷ 26.7)</li>
-            <li>Uses per Bottle: <strong>26.7</strong></li>
-            <li>Coverage per Bottle: <strong>2,667 sqft</strong></li>
-            <li>Tanks per Bottle: <strong>5.33</strong></li>
-          </ul>
-        </details>
-        <details>
-          <summary>Hose‑End Sprayer Core Data</summary>
-          <ul>
-            <li>Dilution Ratio: <strong>1:32</strong></li>
-            <li>Water per Use: <strong>8.25 gal</strong></li>
-            <li>Coverage per Use: <strong>100 sqft</strong></li>
-            <li>Price per Bottle: <strong>$15.00</strong></li>
-            <li>Uses per Bottle: <strong>7.5</strong></li>
-            <li>Coverage per Bottle: <strong>750 sqft</strong></li>
-            <li>Water per Bottle: <strong>61.88 gal</strong></li>
-            <li>Example Year @ 4/wk: <strong>208 uses</strong></li>
-            <li>Example Bottles/Year: <strong>27.7</strong></li>
-            <li>Example Water/Year: <strong>1,716 gal</strong></li>
-            <li>Example Cost/Year: <strong>$416</strong></li>
-          </ul>
-        </details>
+        <!-- Hose-end is chosen as a period: every 1–4 weeks -->
+        <input id="slider-hose-period" type="range" min="1" max="4" step="1" value="1" aria-label="Hose-end period in weeks" />
+        <div class="hint">Every 1–4 weeks (1×/week, every 2 weeks, every 3 weeks, every 4 weeks)</div>
       </div>
-    </section>
+    </div>
 
-    <section class="panel cards">
-      <div class="card">
-        <h3>At a glance</h3>
-        <table>
+    <div class="grid">
+      <div>
+        <table aria-label="Annual totals comparison">
           <thead>
             <tr>
               <th>Metric</th>
-              <th class="right">Dozzle</th>
-              <th class="right">Hose‑end</th>
-              <th class="right">Delta (Hose − Dozzle)</th>
+              <th class="num">Dozzle</th>
+              <th class="num">Hose-end</th>
+              <th class="num">Savings</th>
+              <th class="num">% Better</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>Annual water <span class="tip" data-tip="(Water/use × uses/mo × 12). Dozzle converts oz→gal (÷128)">ⓘ</span></td>
-              <td class="right"><span id="wDozzle">—</span> <span class="unit">gal/yr</span></td>
-              <td class="right"><span id="wHose">—</span> <span class="unit">gal/yr</span></td>
-              <td class="right"><span id="wDelta">—</span> <span class="unit">gal saved</span></td>
-            </tr>
-            <tr>
-              <td>Annual product cost <span class="tip" data-tip="(uses/mo × 12 ÷ uses/bottle) × price/bottle">ⓘ</span></td>
-              <td class="right">$<span id="cDozzle">—</span></td>
-              <td class="right">$<span id="cHose">—</span></td>
-              <td class="right">$<span id="cDelta">—</span> saved</td>
-            </tr>
-            <tr>
-              <td>Plastic bottles / year <span class="tip" data-tip="uses/mo × 12 ÷ uses/bottle">ⓘ</span></td>
-              <td class="right"><span id="pDozzle">—</span></td>
-              <td class="right"><span id="pHose">—</span></td>
-              <td class="right"><span id="pDelta">—</span> fewer</td>
-            </tr>
-            <tr>
-              <td>Setup time / year <span class="tip" data-tip="Dozzle: sec/use × uses/mo × 12 ÷ 3600; Hose: min/use × uses/mo × 12 ÷ 60">ⓘ</span></td>
-              <td class="right"><span id="tDozzle">—</span> <span class="unit">hours</span></td>
-              <td class="right"><span id="tHose">—</span> <span class="unit">hours</span></td>
-              <td class="right"><span id="tDelta">—</span> <span class="unit">hours saved</span></td>
-            </tr>
+          <tbody id="tbody-rows">
+            <!-- rows injected by JS -->
           </tbody>
         </table>
+
+        <div class="summary" id="summary-text" aria-live="polite"></div>
+
+        <div class="btns">
+          <button id="reset">Reset to defaults</button>
+        </div>
+
+        <p class="footnote">All calculations are deterministic and read-only; constants come from Dozzle’s “Dozzle vs Hose-end Sprayer Data.xlsx”.</p>
       </div>
 
-      <div class="card">
-        <h3>Visual Comparison</h3>
-        <div id="chartWrap"><canvas id="comparisonChart"></canvas></div>
-        <div class="delta" id="deltaText"></div>
-
-       
+      <div>
+        <div class="viz">
+          <h3>Water (gallons/year)</h3>
+          <div class="barpair">
+            <div class="labelrow"><span>Dozzle</span><strong id="viz-water-dozzle">0</strong></div>
+            <div class="bars"><div class="bar"><span class="dozzle" id="bar-water-dozzle" style="width:0%"></span></div></div>
+          </div>
+          <div class="barpair">
+            <div class="labelrow"><span>Hose-end</span><strong id="viz-water-hose">0</strong></div>
+            <div class="bars"><div class="bar"><span class="hose" id="bar-water-hose" style="width:0%"></span></div></div>
+          </div>
+        </div>
+        <div class="viz" style="margin-top:12px;">
+          <h3>Cost ($/year)</h3>
+          <div class="barpair">
+            <div class="labelrow"><span>Dozzle</span><strong id="viz-cost-dozzle">0</strong></div>
+            <div class="bars"><div class="bar"><span class="dozzle" id="bar-cost-dozzle" style="width:0%"></span></div></div>
+          </div>
+          <div class="barpair">
+            <div class="labelrow"><span>Hose-end</span><strong id="viz-cost-hose">0</strong></div>
+            <div class="bars"><div class="bar"><span class="hose" id="bar-cost-hose" style="width:0%"></span></div></div>
+          </div>
+        </div>
+        <div class="viz" style="margin-top:12px;">
+          <h3>Time (hours/year)</h3>
+          <div class="barpair">
+            <div class="labelrow"><span>Dozzle</span><strong id="viz-time-dozzle">0</strong></div>
+            <div class="bars"><div class="bar"><span class="dozzle" id="bar-time-dozzle" style="width:0%"></span></div></div>
+          </div>
+          <div class="barpair">
+            <div class="labelrow"><span>Hose-end</span><strong id="viz-time-hose">0</strong></div>
+            <div class="bars"><div class="bar"><span class="hose" id="bar-time-hose" style="width:0%"></span></div></div>
+          </div>
+        </div>
+        <div class="viz" style="margin-top:12px;">
+          <h3>Plastic Bottles (per year)</h3>
+          <div class="barpair">
+            <div class="labelrow"><span>Dozzle</span><strong id="viz-bottles-dozzle">0</strong></div>
+            <div class="bars"><div class="bar"><span class="dozzle" id="bar-bottles-dozzle" style="width:0%"></span></div></div>
+          </div>
+          <div class="barpair">
+            <div class="labelrow"><span>Hose-end</span><strong id="viz-bottles-hose">0</strong></div>
+            <div class="bars"><div class="bar"><span class="hose" id="bar-bottles-hose" style="width:0%"></span></div></div>
+          </div>
+        </div>
       </div>
-    </section>
-  </main>
+    </div>
 
-  <footer class="wrap">
-    Sources: Spreadsheet + PDF values provided by you. Defaults match your screenshot; dropdowns show core data from the sheet.
-  </footer>
+    <details style="margin-top:16px;">
+      <summary>Assumptions (from internal sheet)</summary>
+      <ul>
+        <li>Dozzle per-use: <strong>1.2 oz</strong> product, <strong>8.8 oz</strong> water (~0.069 gal), <strong>0.5 min</strong>, cost <strong>$0.82</strong>, <strong>26.7</strong> uses/bottle.</li>
+        <li>Hose-end per-use: <strong>8.25 gal</strong> water, <strong>10 min</strong>, cost <strong>$15.00</strong>/bottle (1 bottle per use).</li>
+        <li>Weeks/year = 52. Dozzle ≤ 7×/week. Hose-end ranges <strong>1×/week to 1×/4 weeks</strong> (monthly).</li>
+      </ul>
+    </details>
+  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-  (function(){
-    function ready(fn){
-      if(document.readyState === 'complete' || document.readyState === 'interactive') { setTimeout(fn,0); }
-      else { document.addEventListener('DOMContentLoaded', fn, {once:true}); }
-    }
+<script>
+const CONSTS = {
+  DOZZLE_WATER_PER_USE_GAL: 8.8 / 128.0,   // from sheet
+  DOZZLE_COST_PER_USE: 0.82,               // $
+  DOZZLE_TIME_PER_USE_HR: 0.5 / 60,        // 30 sec
+  DOZZLE_BOTTLES_PER_USE: 1 / 26.7,        // uses per bottle
 
-    ready(function(){
-      const $ = (id)=>document.getElementById(id);
+  HOSE_WATER_PER_USE_GAL: 8.25,            // gallons
+  HOSE_COST_PER_USE: 15.0,                 // $ per bottle/use
+  HOSE_TIME_PER_USE_HR: 10.0 / 60,         // 10 minutes
+  HOSE_BOTTLES_PER_USE: 1.0,
 
-      // --- State ---
-      const state = {
-        usesPerMonth: 4,
-        dozzlePrice: 19.99,
-        hosePrice: 15.00,
-        dozzleUsesPerBottle: 26,
-        hoseUsesPerBottle: 1,
-        dozzleWaterOz: 8.8,
-        hoseWaterGal: 8.25,
-        dozzleSetupSec: 0,
-        hoseSetupMin: 10
-      };
+  WEEKS_PER_YEAR: 52
+};
 
-      // --- Helpers ---
-      function fmt(n, d=0){
-        return Number(n).toLocaleString(undefined,{maximumFractionDigits:d, minimumFractionDigits:d});
-      }
+const fmt = {
+  money: (n) => '$' + Math.round(n).toLocaleString(),
+  gal:   (n) => (Math.round(n * 10) / 10).toLocaleString() + ' gal',
+  hours: (n) => (Math.round(n * 100) / 100).toLocaleString() + ' hr',
+  bottles: (n) => (Math.round(n * 10) / 10).toLocaleString(),
+  pct: (n) => (Math.round(n * 10) / 10).toLocaleString() + '%'
+};
 
-      function computeTotals(s){
-        const usesYear = s.usesPerMonth * 12;
-        const waterGalDozzle = (s.dozzleWaterOz * usesYear) / 128;
-        const waterGalHose = s.hoseWaterGal * usesYear;
-        const bottlesDozzle = usesYear / Math.max(s.dozzleUsesPerBottle, 0.0001);
-        const bottlesHose = usesYear / Math.max(s.hoseUsesPerBottle, 0.0001);
-        const costDozzle = bottlesDozzle * s.dozzlePrice;
-        const costHose = bottlesHose * s.hosePrice;
-        const hoursDozzle = (s.dozzleSetupSec * usesYear) / 3600;
-        const hoursHose = (s.hoseSetupMin * usesYear) / 60;
-        const svWater = Math.max(waterGalHose - waterGalDozzle,0);
-        const svCost  = Math.max(costHose - costDozzle,0);
-        const svPlas  = Math.max(bottlesHose - bottlesDozzle,0);
-        const svTime  = Math.max(hoursHose - hoursDozzle,0);
-        return {usesYear, waterGalDozzle, waterGalHose, bottlesDozzle, bottlesHose, costDozzle, costHose, hoursDozzle, hoursHose, svWater, svCost, svPlas, svTime};
-      }
+function computeAnnual(freqDozzlePerWeek, hosePeriodWeeks) {
+  const usesY_d = freqDozzlePerWeek * CONSTS.WEEKS_PER_YEAR;
+  const usesY_h = (1 / hosePeriodWeeks) * CONSTS.WEEKS_PER_YEAR; // every N weeks
 
-      // --- Chart (declare before calc & listeners to avoid TDZ) ---
-      let chart = null; // initialized before any access
-      const canvas = $('comparisonChart');
-      if(canvas && window.Chart){
-        const ctx = canvas.getContext('2d');
-        // plugin to draw % labels above Dozzle bars and absolute savings inside the bar
-        const percentPlugin = {
-          id:'percentLabels',
-          afterDatasetsDraw(chart, args, pluginOpts){
-            const units = (chart.options.plugins.percentLabels && chart.options.plugins.percentLabels.units) || [' gal/yr',' $/yr',' bottles/yr',' h/yr'];
-            const dozzle = chart.data.datasets[0]?.data || [];
-            const hose   = chart.data.datasets[1]?.data || [];
-            const meta   = chart.getDatasetMeta(0);
-            const ctx    = chart.ctx; ctx.save();
-            dozzle.forEach((v,i)=>{
-              const el = meta.data[i]; if(!el) return;
-              const hoseAbs = Math.abs(hose[i]||0);
-              const pct = hoseAbs>0? Math.round(((hoseAbs - v)/hoseAbs)*100):0;
-              // percent above bar
-              ctx.fillStyle = '#111'; ctx.textAlign='center'; ctx.font='700 14px Inter, system-ui, sans-serif';
-              ctx.fillText(`${pct}%`, el.x, el.y - 8);
-              // absolute savings inside bar (center)
-              const saved = Math.max(hoseAbs - v,0);
-              if(saved>0){
-                const pretty = (i===1? `$${Math.round(saved).toLocaleString()}` : `${Math.round(saved).toLocaleString()}`)+units[i];
-                ctx.fillStyle = '#fff'; ctx.font='600 12px Inter, system-ui, sans-serif';
-                const midY = el.y + (el.baseY - el.y)/2; // middle of positive bar
-                ctx.fillText(pretty, el.x, midY);
-              }
-            });
-            ctx.restore();
-          }
-        };
-        Chart.register(percentPlugin);
+  const d = {
+    water: usesY_d * CONSTS.DOZZLE_WATER_PER_USE_GAL,
+    cost:  usesY_d * CONSTS.DOZZLE_COST_PER_USE,
+    time:  usesY_d * CONSTS.DOZZLE_TIME_PER_USE_HR,
+    bottles: usesY_d * CONSTS.DOZZLE_BOTTLES_PER_USE
+  };
+  const h = {
+    water: usesY_h * CONSTS.HOSE_WATER_PER_USE_GAL,
+    cost:  usesY_h * CONSTS.HOSE_COST_PER_USE,
+    time:  usesY_h * CONSTS.HOSE_TIME_PER_USE_HR,
+    bottles: usesY_h * CONSTS.HOSE_BOTTLES_PER_USE
+  };
+  return { d, h };
+}
 
-        chart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: ['Water', 'Money', 'Plastic', 'Setup time'],
-            datasets: [
-              { label: 'Dozzle', data: [0,0,0,0], backgroundColor: '#136a40', borderColor:'#136a40', borderWidth:1, borderRadius:8 },
-              { label: 'Hose-end', data: [0,0,0,0], backgroundColor: '#a77a50', borderColor:'#f9d705', borderWidth:1, borderRadius:8 }
-            ]
-          },
-          options: {
-            responsive:true,
-            maintainAspectRatio:false,
-            animation:{duration:600},
-            plugins:{
-              legend:{display:true, labels:{usePointStyle:true, boxWidth:10}},
-              tooltip:{
-                callbacks:{
-                  label:(ctx)=>{
-                    const idx = ctx.dataIndex; const lbl = ctx.dataset.label; const raw = ctx.raw;
-                    const abs = Math.abs(raw);
-                    const units=[' gal/yr',' $/yr',' bottles/yr',' h/yr'];
-                    const sign = raw<0? '-' : '';
-                    return `${lbl}: ${sign}${abs.toLocaleString()}${units[idx]}`;
-                  }
-                }
-              },
-              percentLabels:{units:[' gal/yr',' $/yr',' bottles/yr',' h/yr']}
-            },
-            scales:{
-              y:{beginAtZero:true, grid:{display:false}},
-              x:{grid:{display:false}}
-            }
-          }
-        });
-      }
+function percentBetter(dozzle, hose) {
+  if (hose <= 0) return 0;
+  return (1 - (dozzle / hose)) * 100;
+}
 
-      // --- Calc & render ---
-      function calc(){
-        const t = computeTotals(state);
-        // Table
-        $('wDozzle').textContent = fmt(t.waterGalDozzle,1);
-        $('wHose').textContent   = fmt(t.waterGalHose,1);
-        $('wDelta').textContent  = fmt(t.svWater,1);
-        $('cDozzle').textContent = fmt(t.costDozzle,2);
-        $('cHose').textContent   = fmt(t.costHose,2);
-        $('cDelta').textContent  = fmt(t.svCost,2);
-        $('pDozzle').textContent = fmt(t.bottlesDozzle,1);
-        $('pHose').textContent   = fmt(t.bottlesHose,1);
-        $('pDelta').textContent  = fmt(t.svPlas,1);
-        $('tDozzle').textContent = fmt(t.hoursDozzle,2);
-        $('tHose').textContent   = fmt(t.hoursHose,2);
-        $('tDelta').textContent  = fmt(t.svTime,2);
+function update() {
+  const freqD = parseInt(document.getElementById('slider-dozzle').value, 10);
+  const hosePeriod = parseInt(document.getElementById('slider-hose-period').value, 10);
 
-        // Chart (vertical; Dozzle up, Hose down)
-        if(chart){
-          const dozzleData = [t.waterGalDozzle, t.costDozzle, t.bottlesDozzle, t.hoursDozzle].map(v=>Number(v.toFixed(2)));
-          const hoseData   = [-t.waterGalHose, -t.costHose, -t.bottlesHose, -t.hoursHose].map(v=>Number(v.toFixed(2)));
-          chart.data.datasets[0].data = dozzleData;
-          chart.data.datasets[1].data = hoseData;
-          const maxAbs = Math.max(...dozzleData.map(Math.abs), ...hoseData.map(Math.abs), 1);
-          chart.options.scales.y.suggestedMax = maxAbs * 1.1;
-          chart.options.scales.y.suggestedMin = -maxAbs * 1.1;
-          chart.update();
-        }
+  // Value labels: "Nx per Week"
+  document.getElementById('v-dozzle').textContent = `${freqD}x per Week`;
+  const hoseLabel = hosePeriod === 1 ? '1x per Week' : `1x per ${hosePeriod} Weeks`;
+  document.getElementById('v-hose').textContent = hoseLabel;
 
-        // Percent reductions for headline
-        const pct = (h,d)=> h>0? ((h-d)/h*100):0;
-        const pWater = pct(t.waterGalHose, t.waterGalDozzle);
-        const pCost  = pct(t.costHose, t.costDozzle);
-        const pBott  = pct(t.bottlesHose, t.bottlesDozzle);
-        const pTime  = pct(t.hoursHose, t.hoursDozzle);
+  const { d, h } = computeAnnual(freqD, hosePeriod);
 
-        $('deltaText').innerHTML = `Dozzle vs Hose‑end: <strong>${pWater.toFixed(0)}% less water</strong>, <strong>${pCost.toFixed(0)}% lower product cost</strong>, <strong>${pBott.toFixed(0)}% fewer bottles</strong>, and <strong>${pTime.toFixed(0)}% less setup time</strong>.<br/>At these settings, Dozzle saves <strong>${fmt(t.svWater,1)} gal</strong>, <strong>$${fmt(t.svCost,0)}</strong>, <strong>${fmt(t.svPlas,1)} bottles</strong>, and <strong>${fmt(t.svTime,2)} hours</strong> per year.`;
-      }
+  const rows = [
+    ['Water (gallons)', d.water, h.water, h.water - d.water, percentBetter(d.water, h.water)],
+    ['Cost ($)',        d.cost,  h.cost,  h.cost  - d.cost,  percentBetter(d.cost,  h.cost) ],
+    ['Time (hours)',    d.time,  h.time,  h.time  - d.time,  percentBetter(d.time,  h.time) ],
+    ['Bottles (count)', d.bottles, h.bottles, h.bottles - d.bottles, percentBetter(d.bottles, h.bottles)]
+  ];
 
-      // --- Inputs ---
-      const inputs = [
-        ['usesPerMonth','usesPerMonthVal','value'],
-        ['dozzlePrice'],['hosePrice'],
-        ['dozzleUsesPerBottle'],['hoseUsesPerBottle'],
-        ['dozzleWaterOz'],['hoseWaterGal'],
-        ['dozzleSetupSec'],['hoseSetupMin']
-      ];
+  const tbody = document.getElementById('tbody-rows');
+  tbody.innerHTML = rows.map(r => {
+    const [label, dv, hv, sv, pv] = r;
+    const pos = sv >= 0;
+    const sCls = pos ? 'savings' : 'loss';
+    return `<tr>
+      <td>${label}</td>
+      <td class="num">${label.startsWith('Cost') ? fmt.money(dv) : label.startsWith('Water') ? fmt.gal(dv) : label.startsWith('Time') ? fmt.hours(dv) : fmt.bottles(dv)}</td>
+      <td class="num">${label.startsWith('Cost') ? fmt.money(hv) : label.startsWith('Water') ? fmt.gal(hv) : label.startsWith('Time') ? fmt.hours(hv) : fmt.bottles(hv)}</td>
+      <td class="num ${sCls}">${label.startsWith('Cost') ? fmt.money(Math.abs(sv)) : label.startsWith('Water') ? fmt.gal(Math.abs(sv)) : label.startsWith('Time') ? fmt.hours(Math.abs(sv)) : fmt.bottles(Math.abs(sv))}</td>
+      <td class="num ${sCls}">${fmt.pct(Math.max(0, pv))}</td>
+    </tr>`;
+  }).join('');
 
-      inputs.forEach(([id, mirror, prop])=>{
-        const el = $(id); if(!el) return;
-        const sync = ()=>{
-          const v = el.type==='range' || el.type==='number' ? parseFloat(el.value) : el.value;
-          state[id] = isNaN(v)? 0 : v;
-          if(mirror){ $(mirror).textContent = el[prop||'value']; }
-          calc();
-        };
-        el.addEventListener('input', sync);
-        sync();
-      });
+  // Bars (relative widths)
+  function setBar(pairIdBase, dv, hv, formatter) {
+    const max = Math.max(dv, hv, 1e-9);
+    const wd = Math.min(100, (dv / max) * 100);
+    const wh = Math.min(100, (hv / max) * 100);
+    document.getElementById(`bar-${pairIdBase}-dozzle`).style.width = wd + '%';
+    document.getElementById(`bar-${pairIdBase}-hose`).style.width = wh + '%';
+    document.getElementById(`viz-${pairIdBase}-dozzle`).textContent = formatter(dv);
+    document.getElementById(`viz-${pairIdBase}-hose`).textContent = formatter(hv);
+  }
+  setBar('water', d.water, h.water, (x)=>fmt.gal(x));
+  setBar('cost',  d.cost,  h.cost,  (x)=>fmt.money(x));
+  setBar('time',  d.time,  h.time,  (x)=>fmt.hours(x));
+  setBar('bottles', d.bottles, h.bottles, (x)=>fmt.bottles(x));
 
-      // --- Tests ---
-      const runBtn = $('runTests');
-      const out = $('testOutput');
-      function runTests(){
-        try{
-          const close = (a,b,eps=0.2)=> Math.abs(a-b) <= eps;
+  // Short summary only + mission nod
+  const savedWater = h.water - d.water;
+  const savedCost  = h.cost  - d.cost;
+  const savedBott  = h.bottles - d.bottles;
+  const savedTime  = h.time  - d.time;
 
-          // Test 1: defaults (4 uses/mo)
-          const t1 = computeTotals({...state, usesPerMonth:4, dozzleUsesPerBottle:26, hoseUsesPerBottle:1, dozzlePrice:19.99, hosePrice:15, dozzleWaterOz:8.8, hoseWaterGal:8.25, dozzleSetupSec:0, hoseSetupMin:10});
-          const ok1 = close(t1.svWater,392.7,0.2) && close(t1.svPlas,46.15,0.2) && close(t1.svTime,8.00,0.01) && Math.round(t1.svCost)===683;
+  const summary = `At these settings, Dozzle saves ${fmt.gal(savedWater)}, ${fmt.money(savedCost)}, ${fmt.bottles(savedBott)} bottles, and ${fmt.hours(savedTime)} per year.\n` +
+                  `Every backyard adds up—on the path to One Billion Gallons.`;
+  document.getElementById('summary-text').textContent = summary;
+}
 
-          // Test 2: zero use = zero savings
-          const t2 = computeTotals({...state, usesPerMonth:0});
-          const ok2 = t2.svWater===0 && t2.svCost===0 && t2.svPlas===0 && t2.svTime===0;
-
-          // Test 3: 12 uses/mo sanity (water math)
-          const t3 = computeTotals({...state, usesPerMonth:12});
-          const expectedWater = 12*12*8.25 - (12*12*8.8)/128; // 144 uses/year
-          const ok3 = close(t3.svWater, expectedWater, 0.2);
-
-          // Test 4: equal price & uses/bottle -> $ savings = 0
-          const t4 = computeTotals({...state, usesPerMonth:8, dozzlePrice:10, hosePrice:10, dozzleUsesPerBottle:20, hoseUsesPerBottle:20});
-          const ok4 = close(t4.svCost, 0, 1e-9);
-
-          // Test 5: water parity -> ~0 gal saved
-          const t5 = computeTotals({...state, usesPerMonth:10, dozzleWaterOz:8.25*128, hoseWaterGal:8.25});
-          const ok5 = close(t5.svWater, 0, 0.2);
-
-          if(ok1 && ok2 && ok3 && ok4 && ok5){ out.innerHTML = '<span class="pass">All tests passed.</span>'; }
-          else{
-            out.innerHTML = '<span class="fail">Some tests failed.</span>' +
-              `<pre>${JSON.stringify({t1:{svWater:t1.svWater, svCost:t1.svCost, svPlas:t1.svPlas, svTime:t1.svTime}, t2, t3:{svWater:t3.svWater, expectedWater}, t4:{svCost:t4.svCost}, t5:{svWater:t5.svWater}}, null, 2)}</pre>`;
-          }
-        }catch(e){ out.innerHTML = '<span class="fail">Tests crashed:</span> ' + e.message; }
-      }
-      runBtn.addEventListener('click', runTests);
-
-      // Initial render
-      calc();
-    });
-  })();
-  </script>
+document.getElementById('slider-dozzle').addEventListener('input', update);
+document.getElementById('slider-hose-period').addEventListener('input', update);
+document.getElementById('reset').addEventListener('click', () => {
+  document.getElementById('slider-dozzle').value = 4;
+  document.getElementById('slider-hose-period').value = 1;
+  update();
+});
+update();
+</script>
 </body>
 </html>
