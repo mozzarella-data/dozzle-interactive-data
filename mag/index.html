@@ -1,114 +1,16 @@
-# Create a CSP-safe version with external JS & CSS (works on GitHub Pages & CodePen)
-import os, textwrap, json, pathlib
+# Write a clean GitHub‑friendly version (separate files + .nojekyll) and zip it
+import os, zipfile, textwrap, pathlib, json
 
-root = "/mnt/data/mag_csp_safe"
+root = "/mnt/data/mag_site"
 os.makedirs(root, exist_ok=True)
 
-css = """
-:root{
-  --bg:#0c0f12; --card:#131922; --muted:#a7b2c3; --text:#eaf2ff; --accent:#4cc38a; --danger:#ff6b6b;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;background:#0c0f12;color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial}
-.wrap{max-width:1100px;margin:32px auto;padding:0 16px}
-h1{font-size:20px;margin:0 0 16px}
-.grid{display:grid;gap:16px;grid-template-columns:1fr 1fr}
-@media (max-width:900px){.grid{grid-template-columns:1fr}}
-.card{background:#131922;border:1px solid #253042;border-radius:14px;padding:16px}
-.card h2{margin:0 0 8px;font-size:16px}
-.row{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:8px 0}
-.row input{width:140px;padding:10px 12px;border-radius:10px;border:1px solid #2a364b;background:#0c121b;color:var(--text)}
-.stat{padding:12px;border-radius:10px;background:#0f1723;border:1px solid #263349;margin:8px 0}
-.good{color:var(--accent)}
-.bad{color:var(--danger)}
-.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#0f1723;border:1px solid #263349;font-size:12px;margin-left:8px}
-footer{margin:20px 0;color:#93a5c4;font-size:12px}
-"""
-
-js = r"""
-(function(){
-  const $ = id => document.getElementById(id);
-  const fmt = (n, d=2) => isFinite(n) ? n.toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d}) : '—';
-  const pct = (x, d=1) => isFinite(x) ? (x*100).toFixed(d)+'%' : '—';
-
-  function update(){
-    // Inputs
-    const price = +($('#price')?.value || 0);
-    const cogs  = +($('#cogs')?.value || 0);
-    const refPct= +(($('#refPct')?.value || 0)) / 100;
-    const fba   = +($('#fba')?.value || 0);
-    const other = +($('#other')?.value || 0);
-    const cvr   = +(($('#cvr')?.value || 0)) / 100;
-    const acosT = +(($('#acosTarget')?.value || 0)) / 100;
-    const cpc   = +($('#cpc')?.value || 0);
-
-    const CM = price - (refPct*price) - fba - cogs - other;
-    const beAcos = price > 0 ? CM/price : 0;
-    const beCpc  = cvr * CM;
-    const CPA    = cvr > 0 ? cpc/cvr : Infinity;
-    const profitAtCpc  = CM - CPA;
-    const profitAtAcos = CM - (acosT * price);
-
-    // Render
-    if($('#cm')) $('#cm').textContent = '$' + fmt(CM);
-    if($('#beAcos')) $('#beAcos').textContent = pct(beAcos);
-    if($('#beCpc')) $('#beCpc').textContent = '$' + fmt(beCpc);
-    if($('#profitAtAcos')) $('#profitAtAcos').innerHTML = (profitAtAcos>=0?'<span class="good">$'+fmt(profitAtAcos)+'</span>':'<span class="bad">$'+fmt(profitAtAcos)+'</span>');
-    if($('#profitAtCpc')) $('#profitAtCpc').innerHTML   = (profitAtCpc>=0?'<span class="good">$'+fmt(profitAtCpc)+'</span>':'<span class="bad">$'+fmt(profitAtCpc)+'</span>');
-
-    // Simulator
-    const budget = +($('#budget')?.value || 0);
-    const simCpc = +($('#simCpc')?.value || 0.01);
-    const ctr    = +(($('#ctr')?.value || 0)) / 100;
-    const simCvr = +(($('#simCvr')?.value || 0)) / 100;
-    const simPrice = +($('#simPrice')?.value || 0);
-    const unitCostAllIn = +($('#unitCostAllIn')?.value || 0);
-
-    const clicks = simCpc>0 ? budget/simCpc : 0;
-    const impressions = ctr>0 ? clicks/ctr : 0;
-    const orders = clicks * simCvr;
-    const adSales = orders * simPrice;
-    const adSpend = clicks * simCpc;
-    const acos = adSales>0 ? adSpend/adSales : 0;
-    const cmSim = simPrice - unitCostAllIn;
-    const profitDay = (cmSim*orders) - adSpend;
-
-    if($('#imp')) $('#imp').textContent = Math.round(impressions).toLocaleString();
-    if($('#clicks')) $('#clicks').textContent = Math.round(clicks).toLocaleString();
-    if($('#orders')) $('#orders').textContent = Math.round(orders).toLocaleString();
-    if($('#adSales')) $('#adSales').textContent = '$' + fmt(adSales);
-    if($('#acos')) $('#acos').textContent = pct(acos);
-    if($('#profitDay')) $('#profitDay').innerHTML = (profitDay>=0?'<span class="good">$'+fmt(profitDay)+'</span>':'<span class="bad">$'+fmt(profitDay)+'</span>');
-  }
-
-  function bind(){
-    document.querySelectorAll('input').forEach(el => {
-      el.addEventListener('input', update);
-      el.addEventListener('change', update);
-    });
-    update();
-    const badge = document.getElementById('jsok');
-    if(badge){ badge.textContent='JS: OK'; badge.style.color='#4cc38a'; }
-    console.log('[MAG] JS loaded');
-  }
-
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', bind);
-  }else{
-    bind();
-  }
-})();
-"""
-
-html = """
-<!doctype html>
+index_html = """<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ACoS/ROAS Calculator + Launch Simulator • MAG Demo</title>
-<link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ACoS/ROAS Calculator + Launch Simulator • MAG Demo</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="wrap">
@@ -161,23 +63,114 @@ html = """
       </div>
     </div>
 
-    <footer>Built by Nick. No tracking. External JS/CSS for GitHub Pages CSP safety.</footer>
+    <footer>Built by Nick. No tracking. JS & CSS are external for GitHub Pages.</footer>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js" defer></script>
 </body>
 </html>
 """
 
+styles_css = """:root{
+  --bg:#0c0f12; --card:#131922; --muted:#a7b2c3; --text:#eaf2ff; --accent:#4cc38a; --danger:#ff6b6b;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:#0c0f12;color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial}
+.wrap{max-width:1100px;margin:32px auto;padding:0 16px}
+h1{font-size:20px;margin:0 0 16px}
+.grid{display:grid;gap:16px;grid-template-columns:1fr 1fr}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:#131922;border:1px solid #253042;border-radius:14px;padding:16px}
+.card h2{margin:0 0 8px;font-size:16px}
+.row{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:8px 0}
+.row input{width:140px;padding:10px 12px;border-radius:10px;border:1px solid #2a364b;background:#0c121b;color:var(--text)}
+.stat{padding:12px;border-radius:10px;background:#0f1723;border:1px solid #263349;margin:8px 0}
+.good{color:var(--accent)}
+.bad{color:var(--danger)}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#0f1723;border:1px solid #263349;font-size:12px;margin-left:8px}
+footer{margin:20px 0;color:#93a5c4;font-size:12px}
+"""
+
+app_js = """(function(){
+  const $ = id => document.getElementById(id);
+  const fmt = (n, d=2) => isFinite(n) ? n.toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d}) : '—';
+  const pct = (x, d=1) => isFinite(x) ? (x*100).toFixed(d)+'%' : '—';
+
+  function update(){
+    const price = +($('#price')?.value || 0);
+    const cogs  = +($('#cogs')?.value || 0);
+    const refPct= +(($('#refPct')?.value || 0)) / 100;
+    const fba   = +($('#fba')?.value || 0);
+    const other = +($('#other')?.value || 0);
+    const cvr   = +(($('#cvr')?.value || 0)) / 100;
+    const acosT = +(($('#acosTarget')?.value || 0)) / 100;
+    const cpc   = +($('#cpc')?.value || 0);
+
+    const CM = price - (refPct*price) - fba - cogs - other;
+    const beAcos = price > 0 ? CM/price : 0;
+    const beCpc  = cvr * CM;
+    const CPA    = cvr > 0 ? cpc/cvr : Infinity;
+    const profitAtCpc  = CM - CPA;
+    const profitAtAcos = CM - (acosT * price);
+
+    if($('#cm')) $('#cm').textContent = '$' + fmt(CM);
+    if($('#beAcos')) $('#beAcos').textContent = pct(beAcos);
+    if($('#beCpc')) $('#beCpc').textContent = '$' + fmt(beCpc);
+    if($('#profitAtAcos')) $('#profitAtAcos').innerHTML = (profitAtAcos>=0?'<span class="good">$'+fmt(profitAtAcos)+'</span>':'<span class="bad">$'+fmt(profitAtAcos)+'</span>');
+    if($('#profitAtCpc')) $('#profitAtCpc').innerHTML   = (profitAtCpc>=0?'<span class="good">$'+fmt(profitAtCpc)+'</span>':'<span class="bad">$'+fmt(profitAtCpc)+'</span>');
+
+    const budget = +($('#budget')?.value || 0);
+    const simCpc = +($('#simCpc')?.value || 0.01);
+    const ctr    = +(($('#ctr')?.value || 0)) / 100;
+    const simCvr = +(($('#simCvr')?.value || 0)) / 100;
+    const simPrice = +($('#simPrice')?.value || 0);
+    const unitCostAllIn = +($('#unitCostAllIn')?.value || 0);
+
+    const clicks = simCpc>0 ? budget/simCpc : 0;
+    const impressions = ctr>0 ? clicks/ctr : 0;
+    const orders = clicks * simCvr;
+    const adSales = orders * simPrice;
+    const adSpend = clicks * simCpc;
+    const acos = adSales>0 ? adSpend/adSales : 0;
+    const cmSim = simPrice - unitCostAllIn;
+    const profitDay = (cmSim*orders) - adSpend;
+
+    if($('#imp')) $('#imp').textContent = Math.round(impressions).toLocaleString();
+    if($('#clicks')) $('#clicks').textContent = Math.round(clicks).toLocaleString();
+    if($('#orders')) $('#orders').textContent = Math.round(orders).toLocaleString();
+    if($('#adSales')) $('#adSales').textContent = '$' + fmt(adSales);
+    if($('#acos')) $('#acos').textContent = pct(acos);
+    if($('#profitDay')) $('#profitDay').innerHTML = (profitDay>=0?'<span class="good">$'+fmt(profitDay)+'</span>':'<span class="bad">$'+fmt(profitDay)+'</span>');
+  }
+
+  function bind(){
+    document.querySelectorAll('input').forEach(el => {
+      el.addEventListener('input', update);
+      el.addEventListener('change', update);
+    });
+    update();
+    const badge = document.getElementById('jsok');
+    if(badge){ badge.textContent='JS: OK'; badge.style.color='#4cc38a'; }
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', bind);
+  }else{
+    bind();
+  }
+})();"""
+
 # Write files
-with open(os.path.join(root, "index.html"), "w", encoding="utf-8") as f:
-    f.write(html.strip())
+open(os.path.join(root,'index.html'), 'w', encoding='utf-8').write(index_html)
+open(os.path.join(root,'styles.css'), 'w', encoding='utf-8').write(styles_css)
+open(os.path.join(root,'app.js'), 'w', encoding='utf-8').write(app_js)
+open(os.path.join(root,'.nojekyll'), 'w').write('')  # disable Jekyll processing just in case
 
-with open(os.path.join(root, "app.js"), "w", encoding="utf-8") as f:
-    f.write(js.strip())
+# Zip it
+zip_path = "/mnt/data/mag_site.zip"
+with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as z:
+    for fname in ['index.html','styles.css','app.js','.nojekyll']:
+        z.write(os.path.join(root,fname), arcname=fname)
 
-with open(os.path.join(root, "styles.css"), "w", encoding="utf-8") as f:
-    f.write(css.strip())
-
-root
-
+zip_path
