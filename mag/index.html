@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ACoS/ROAS Calculator + Launch Simulator • MAG Demo</title>
+<style>
+  body{background:#0c0f12;color:#fff;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial;padding:20px;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media(max-width:800px){.grid{grid-template-columns:1fr}}
+  .card{background:#131922;padding:16px;border-radius:12px}
+  .card h2{margin-top:0;font-size:18px}
+  .row{margin:10px 0;display:flex;justify-content:space-between;align-items:center}
+  .row input{width:120px;padding:6px;border-radius:6px;border:1px solid #555;background:#0c121b;color:#fff}
+  .stat{margin:8px 0;padding:10px;border-radius:8px;background:#0f1723}
+  .good{color:#4cc38a}
+  .bad{color:#ff6b6b}
+</style>
+</head>
+<body>
+<h1>ACoS/ROAS Calculator + Launch Simulator</h1>
+<div class="grid">
+  <div class="card">
+    <h2>Inputs</h2>
+    <div class="row"><label>Price ($)</label><input id="price" type="number" value="25.99" step="0.01"></div>
+    <div class="row"><label>COGS ($)</label><input id="cogs" type="number" value="5.10" step="0.01"></div>
+    <div class="row"><label>Amazon fee (%)</label><input id="refPct" type="number" value="15" step="0.1"></div>
+    <div class="row"><label>FBA + fulfill ($)</label><input id="fba" type="number" value="4.00" step="0.01"></div>
+    <div class="row"><label>Other fees ($)</label><input id="other" type="number" value="0.50" step="0.01"></div>
+    <div class="row"><label>CVR (%)</label><input id="cvr" type="number" value="10" step="0.1"></div>
+    <div class="row"><label>Target ACoS (%)</label><input id="acosTarget" type="number" value="30" step="0.1"></div>
+    <div class="row"><label>Avg CPC ($)</label><input id="cpc" type="number" value="0.60" step="0.01"></div>
+  </div>
+  <div class="card">
+    <h2>Results</h2>
+    <div class="stat">CM: <b id="cm">$0</b></div>
+    <div class="stat">Break-even ACoS: <b id="beAcos">0%</b></div>
+    <div class="stat">Break-even CPC: <b id="beCpc">$0</b></div>
+    <div class="stat">Profit/order @ ACoS: <b id="profitAtAcos">$0</b></div>
+    <div class="stat">Profit/order @ CPC: <b id="profitAtCpc">$0</b></div>
+  </div>
+</div>
+<hr>
+<div class="grid">
+  <div class="card">
+    <h2>Launch Inputs</h2>
+    <div class="row"><label>Daily budget ($)</label><input id="budget" type="number" value="50"></div>
+    <div class="row"><label>Avg CPC ($)</label><input id="simCpc" type="number" value="0.60" step="0.01"></div>
+    <div class="row"><label>CTR (%)</label><input id="ctr" type="number" value="0.5" step="0.01"></div>
+    <div class="row"><label>CVR (%)</label><input id="simCvr" type="number" value="10" step="0.1"></div>
+    <div class="row"><label>Price ($)</label><input id="simPrice" type="number" value="25.99" step="0.01"></div>
+    <div class="row"><label>Unit Cost ($)</label><input id="unitCostAllIn" type="number" value="9.60" step="0.01"></div>
+  </div>
+  <div class="card">
+    <h2>Day‑1 Simulation</h2>
+    <div class="stat">Impressions: <b id="imp">0</b></div>
+    <div class="stat">Clicks: <b id="clicks">0</b></div>
+    <div class="stat">Orders: <b id="orders">0</b></div>
+    <div class="stat">Ad Sales: <b id="adSales">$0</b></div>
+    <div class="stat">ACoS: <b id="acos">0%</b></div>
+    <div class="stat">Profit: <b id="profitDay">$0</b></div>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const fmt=(n,d=2)=>isFinite(n)?n.toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d}):'—';
+const pct=(x,d=1)=>isFinite(x)?(x*100).toFixed(d)+'%':'—';
+
+function update(){
+  const price=+$('#price').value||0,cogs=+$('#cogs').value||0,refPct=(+$('#refPct').value||0)/100,fba=+$('#fba').value||0,other=+$('#other').value||0;
+  const cvr=(+$('#cvr').value||0)/100,acosTarget=(+$('#acosTarget').value||0)/100,cpc=+$('#cpc').value||0;
+  const CM=price-(refPct*price)-fba-cogs-other;
+  const beAcos=price?CM/price:0,beCpc=cvr*CM,CPA=cvr?cpc/cvr:0;
+  const profitAtCpc=CM-CPA,profitAtAcos=CM-(acosTarget*price);
+
+  $('#cm').textContent='$'+fmt(CM);
+  $('#beAcos').textContent=pct(beAcos);
+  $('#beCpc').textContent='$'+fmt(beCpc);
+  $('#profitAtAcos').innerHTML=profitAtAcos>=0?'<span class="good">$'+fmt(profitAtAcos)+'</span>':'<span class="bad">$'+fmt(profitAtAcos)+'</span>';
+  $('#profitAtCpc').innerHTML=profitAtCpc>=0?'<span class="good">$'+fmt(profitAtCpc)+'</span>':'<span class="bad">$'+fmt(profitAtCpc)+'</span>';
+
+  const budget=+$('#budget').value||0,simCpc=+$('#simCpc').value||0.01,ctr=(+$('#ctr').value||0)/100,simCvr=(+$('#simCvr').value||0)/100;
+  const simPrice=+$('#simPrice').value||0,unitCostAllIn=+$('#unitCostAllIn').value||0;
+  const clicks=budget/simCpc,impressions=ctr?clicks/ctr:0,orders=clicks*simCvr;
+  const adSales=orders*simPrice,adSpend=clicks*simCpc,acos=adSales?adSpend/adSales:0;
+  const cmSim=simPrice-unitCostAllIn,profitDay=(cmSim*orders)-adSpend;
+
+  $('#imp').textContent=Math.round(impressions);
+  $('#clicks').textContent=Math.round(clicks);
+  $('#orders').textContent=Math.round(orders);
+  $('#adSales').textContent='$'+fmt(adSales);
+  $('#acos').textContent=pct(acos);
+  $('#profitDay').innerHTML=profitDay>=0?'<span class="good">$'+fmt(profitDay)+'</span>':'<span class="bad">$'+fmt(profitDay)+'</span>';
+}
+
+document.querySelectorAll('input').forEach(i=>i.addEventListener('input',update));
+update();
+</script>
+</body>
+</html>
