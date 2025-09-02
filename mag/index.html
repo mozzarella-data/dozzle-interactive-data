@@ -1,42 +1,42 @@
-
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Ad Budget Simulator (Client-Friendly)</title>
+<title>Mockup Ad Budget Simulator Tool</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
   :root{
-    --bg:#0b0f14; --card:#121821; --ink:#e8eef6; --muted:#9fb1c9;
-    --accent:#43c59e; --line:#223046; --warn:#ffc857;
+    --bg:#ffffff; --card:#ffffff; --ink:#111111; --muted:#555555;
+    --accent:#0f62fe; --line:#dddddd; --warn:#b58900;
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column}
-  header{padding:16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#0b0f14c8;backdrop-filter:saturate(1.2) blur(6px)}
-  h1{margin:0;font-size:18px}
+  header{padding:16px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#ffffff}
+  h1{margin:0;font-size:18px;font-weight:700;color:#000}
   .wrap{max-width:1000px;margin:18px auto;padding:0 16px;flex:1;width:100%}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
-  label{display:block;margin-top:10px;font-weight:600}
-  input[type=number], select{width:100%;padding:8px;border-radius:8px;border:1px solid var(--line);background:#0f1621;color:var(--ink)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+  label{display:block;margin-top:10px;font-weight:600;color:#111}
+  input[type=number], select{width:100%;padding:8px;border-radius:8px;border:1px solid var(--line);background:#fff;color:#111}
   input[type=range]{width:100%}
   .small{color:var(--muted);font-size:12px;margin-top:4px}
   .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
   .btns{display:flex;gap:8px;flex-wrap:wrap}
-  button{cursor:pointer;border:1px solid var(--line);background:#0f1621;color:var(--ink);padding:10px 12px;border-radius:10px}
-  button.primary{background:var(--accent);color:#00140c;border:none}
-  table{width:100%;border-collapse:collapse;margin-top:10px}
-  th,td{border-bottom:1px solid var(--line);padding:6px;text-align:right;font-size:13px;vertical-align:top}
+  button{cursor:pointer;border:1px solid var(--line);background:#f7f7f7;color:#111;padding:10px 12px;border-radius:10px}
+  button.primary{background:var(--accent);color:#fff;border:none}
+  table{width:100%;border-collapse:collapse;margin-top:10px;background:#fff}
+  th,td{border-bottom:1px solid var(--line);padding:6px;text-align:right;font-size:13px;vertical-align:top;color:#111}
   th:first-child,td:first-child{text-align:left}
-  .info{font-size:13px;color:var(--muted);margin-top:8px}
-  /* Tooltips */
-  .tip{border-bottom:1px dotted var(--muted);cursor:help;position:relative;display:inline-block;line-height:1}
-  .tip > .icon{display:inline-block;width:18px;height:18px;border-radius:50%;border:1px solid var(--muted);text-align:center;line-height:18px;font-weight:700;font-size:12px;color:var(--muted)}
+  .info{font-size:13px;color:#444;margin-top:8px}
+  /* Tooltips - light theme */
+  .tip{border-bottom:1px dotted #888;cursor:help;position:relative;display:inline-block;line-height:1}
+  .tip > .icon{display:inline-block;width:18px;height:18px;border-radius:50%;border:1px solid #888;text-align:center;line-height:18px;font-weight:700;font-size:12px;color:#444;background:#fff}
   .tip:hover .tipbox{opacity:1;transform:translateY(0);pointer-events:auto}
   .tipbox{
     position:absolute;left:0;top:120%;min-width:220px;max-width:320px;
-    background:#0c121a;border:1px solid var(--line);border-radius:8px;padding:8px;
-    font-size:12px;color:var(--ink);opacity:0;transform:translateY(6px);transition:.15s;pointer-events:none;z-index:9
+    background:#ffffff;border:1px solid #999;border-radius:8px;padding:8px;
+    font-size:12px;color:#111;opacity:0;transform:translateY(6px);transition:.15s;pointer-events:none;z-index:9;
+    box-shadow:0 8px 18px rgba(0,0,0,.08)
   }
   @media (max-width:800px){
     .two{grid-template-columns:1fr}
@@ -45,22 +45,22 @@
   @media print{
     header,.btns{display:none}
     body{background:white;color:#000}
-    .card, input, select{border-color:#999}
+    .card, input, select{border-color:#aaa}
   }
 </style>
 </head>
 <body>
-<header><h1>Ad Budget Simulator</h1></header>
+<header><h1>Mockup Ad Budget Simulator Tool</h1></header>
 <div class="wrap">
 
   <!-- SECTION 1: Inputs -->
   <div class="card">
-    <h3 style="margin:0 0 6px">1) Inputs</h3>
+    <h3 style="margin:0 0 6px;color:#000">1) Inputs</h3>
     <div class="two">
       <div>
         <label>Monthly revenue ($)
           <span class="tip"><span class="icon">?</span>
-            <span class="tipbox"><b>Monthly revenue</b> is your total sales in the last 30 days (all sources). We use it to compute <b>TACOS</b> (ad spend ÷ total revenue).</span>
+            <span class="tipbox"><b>Monthly revenue</b> = your total sales in the last 30 days (all sources). Used to compute <b>TACOS</b> (ad spend ÷ total revenue).</span>
           </span>
         </label>
         <input type="number" id="rev" placeholder="e.g. 50000" min="0">
@@ -68,7 +68,7 @@
       <div>
         <label>Total ad spend ($ / month)
           <span class="tip"><span class="icon">?</span>
-            <span class="tipbox"><b>Total ad spend</b> is what you plan to invest in Amazon ads this month across SP / SB / SD.</span>
+            <span class="tipbox"><b>Total ad spend</b> = your planned monthly budget across SP / SB / SD.</span>
           </span>
         </label>
         <input type="number" id="spend" placeholder="e.g. 10000" min="0">
@@ -79,7 +79,7 @@
       <div>
         <label>Category
           <span class="tip"><span class="icon">?</span>
-            <span class="tipbox">Pick the closest category. We’ll prefill typical <b>CTR</b>, <b>CVR</b>, <b>CPC</b>, and <b>AOV</b> by ad type. You can still override them later.</span>
+            <span class="tipbox">Choose the closest category. We’ll prefill typical <b>CTR</b>, <b>CVR</b>, <b>CPC</b>, and <b>AOV</b> by ad type. You can still override later.</span>
           </span>
         </label>
         <select id="category" onchange="applyCategory()">
@@ -98,12 +98,12 @@
 
   <!-- SECTION 2: Allocation -->
   <div class="card">
-    <h3 style="margin:0 0 6px">2) Budget allocation</h3>
+    <h3 style="margin:0 0 6px;color:#000">2) Budget allocation</h3>
     <div class="info">Drag sliders. The three add up to 100% and adjust each other.</div>
 
     <label>Sponsored Products (SP)
       <span class="tip"><span class="icon">?</span>
-        <span class="tipbox"><b>Sponsored Products</b> show on search and product pages; typically the main conversion driver.</span>
+        <span class="tipbox"><b>Sponsored Products</b> = product ads on search and PDPs; typically the primary conversion driver.</span>
       </span>
     </label>
     <input type="range" id="spPct" min="0" max="100" value="60" oninput="onSliderChange('SP')">
@@ -111,7 +111,7 @@
 
     <label>Sponsored Brands (SB)
       <span class="tip"><span class="icon">?</span>
-        <span class="tipbox"><b>Sponsored Brands</b> use logos/creatives; great for brand lift and Store traffic.</span>
+        <span class="tipbox"><b>Sponsored Brands</b> = creatives with logo; useful for awareness and Store traffic.</span>
       </span>
     </label>
     <input type="range" id="sbPct" min="0" max="100" value="25" oninput="onSliderChange('SB')">
@@ -119,7 +119,7 @@
 
     <label>Sponsored Display (SD)
       <span class="tip"><span class="icon">?</span>
-        <span class="tipbox"><b>Sponsored Display</b> reaches audiences on and off Amazon; useful for remarketing and awareness.</span>
+        <span class="tipbox"><b>Sponsored Display</b> = audience/remarketing placements on & off Amazon.</span>
       </span>
     </label>
     <input type="range" id="sdPct" min="0" max="100" value="15" oninput="onSliderChange('SD')">
@@ -128,18 +128,18 @@
 
   <!-- SECTION 3: Benchmarks -->
   <div class="card">
-    <h3 style="margin:0 0 6px">3) Benchmarks (editable)</h3>
+    <h3 style="margin:0 0 6px;color:#000">3) Benchmarks (editable)</h3>
     <div class="small">We prefill typical averages by category. Override any number.</div>
 
     <div class="three">
       <div>
-        <h4 style="margin:4px 0">Sponsored Products</h4>
+        <h4 style="margin:4px 0;color:#000">Sponsored Products</h4>
         <label>CTR %
-          <span class="tip"><span class="icon">?</span><span class="tipbox"><b>CTR</b> = clicks ÷ impressions. Higher CTR means your ad appeals to searchers.</span></span>
+          <span class="tip"><span class="icon">?</span><span class="tipbox"><b>CTR</b> = clicks ÷ impressions.</span></span>
         </label>
         <input type="number" id="spCTR" step="0.01" value="0.37">
         <label>CVR %
-          <span class="tip"><span class="icon">?</span><span class="tipbox"><b>CVR</b> = orders ÷ clicks. Measures listing + intent quality.</span></span>
+          <span class="tip"><span class="icon">?</span><span class="tipbox"><b>CVR</b> = orders ÷ clicks.</span></span>
         </label>
         <input type="number" id="spCVR" step="0.1" value="10">
         <label>CPC $
@@ -147,52 +147,40 @@
         </label>
         <input type="number" id="spCPC" step="0.01" value="0.69">
         <label>AOV $
-          <span class="tip"><span class="icon">?</span><span class="tipbox"><b>AOV</b> = average order value for conversions from this ad type.</span></span>
+          <span class="tip"><span class="icon">?</span><span class="tipbox"><b>AOV</b> = average order value of conversions.</span></span>
         </label>
         <input type="number" id="spAOV" step="0.01" value="36.43">
       </div>
 
       <div>
-        <h4 style="margin:4px 0">Sponsored Brands</h4>
+        <h4 style="margin:4px 0;color:#000">Sponsored Brands</h4>
         <label>CTR %
-          <span class="tip"><span class="icon">?</span><span class="tipbox">Typically a bit higher than SP when creative fits query.</span></span>
+          <span class="tip"><span class="icon">?</span><span class="tipbox">Often higher when creative matches query intent.</span></span>
         </label>
         <input type="number" id="sbCTR" step="0.01" value="0.40">
         <label>CVR %
-          <span class="tip"><span class="icon">?</span><span class="tipbox">Lower than SP since SB is more upper-funnel.</span></span>
+          <span class="tip"><span class="icon">?</span><span class="tipbox">Upper-funnel; typically lower than SP.</span></span>
         </label>
         <input type="number" id="sbCVR" step="0.1" value="6.9">
-        <label>CPC $
-          <span class="tip"><span class="icon">?</span><span class="tipbox">Cost per click for SB placements.</span></span>
-        </label>
+        <label>CPC $ <span class="tip"><span class="icon">?</span><span class="tipbox">Average cost per click for SB.</span></span></label>
         <input type="number" id="sbCPC" step="0.01" value="0.78">
-        <label>AOV $
-          <span class="tip"><span class="icon">?</span><span class="tipbox">Average basket value from SB conversions.</span></span>
-        </label>
+        <label>AOV $ <span class="tip"><span class="icon">?</span><span class="tipbox">Average order value from SB conversions.</span></span></label>
         <input type="number" id="sbAOV" step="0.01" value="49.15">
       </div>
 
       <div>
-        <h4 style="margin:4px 0">Sponsored Display</h4>
-        <label>CTR %
-          <span class="tip"><span class="icon">?</span><span class="tipbox">Often lower (audience placements). Still valuable for remarketing.</span></span>
-        </label>
+        <h4 style="margin:4px 0;color:#000">Sponsored Display</h4>
+        <label>CTR % <span class="tip"><span class="icon">?</span><span class="tipbox">Audience placements; CTR is often lower.</span></span></label>
         <input type="number" id="sdCTR" step="0.01" value="0.19">
-        <label>CVR %
-          <span class="tip"><span class="icon">?</span><span class="tipbox">Remarketing can drive healthy CVR if audiences are warm.</span></span>
-        </label>
+        <label>CVR % <span class="tip"><span class="icon">?</span><span class="tipbox">Remarketing can yield solid CVR.</span></span></label>
         <input type="number" id="sdCVR" step="0.1" value="10.4">
-        <label>CPC $
-          <span class="tip"><span class="icon">?</span><span class="tipbox">Cost per click for SD placements.</span></span>
-        </label>
+        <label>CPC $ <span class="tip"><span class="icon">?</span><span class="tipbox">Average cost per click for SD.</span></span></label>
         <input type="number" id="sdCPC" step="0.01" value="0.75">
-        <label>AOV $
-          <span class="tip"><span class="icon">?</span><span class="tipbox">Average order value from SD conversions.</span></span>
-        </label>
+        <label>AOV $ <span class="tip"><span class="icon">?</span><span class="tipbox">Average order value from SD conversions.</span></span></label>
         <input type="number" id="sdAOV" step="0.01" value="51.56">
       </div>
     </div>
-    <div class="info">Tip: Benchmarks are starting points. Real performance varies by category, competition, and creative.</div>
+    <div class="info">Benchmarks are starting points. Real performance varies by category, competition, and creative.</div>
   </div>
 
   <!-- Run Simulation -->
@@ -201,200 +189,118 @@
       <button class="primary" onclick="simulate()">Run Simulation</button>
       <button onclick="window.print()">Print / Save PDF</button>
     </div>
-    <div id="results" class="small" style="margin-top:8px;color:var(--muted)">Enter inputs, adjust allocation, then run.</div>
+    <div id="results" class="small" style="margin-top:8px;color:#444">Enter inputs, adjust allocation, then run.</div>
   </div>
 
 </div>
 
 <script>
-/* ---------- Category Benchmarks (example presets) ---------- */
 const CATEGORY = {
-  default: {
-    SP:{ctr:0.37,cvr:10,cpc:0.69,aov:36.43},
-    SB:{ctr:0.40,cvr:6.9,cpc:0.78,aov:49.15},
-    SD:{ctr:0.19,cvr:10.4,cpc:0.75,aov:51.56},
-  },
-  pet:{
-    SP:{ctr:0.40,cvr:10.5,cpc:0.65,aov:32},
-    SB:{ctr:0.42,cvr:7.5,cpc:0.72,aov:38},
-    SD:{ctr:0.20,cvr:10.8,cpc:0.70,aov:34},
-  },
-  beauty:{
-    SP:{ctr:0.45,cvr:9.0,cpc:0.85,aov:28},
-    SB:{ctr:0.48,cvr:7.2,cpc:0.95,aov:32},
-    SD:{ctr:0.22,cvr:8.8,cpc:0.80,aov:30},
-  },
-  home:{
-    SP:{ctr:0.35,cvr:11.0,cpc:0.70,aov:42},
-    SB:{ctr:0.38,cvr:7.0,cpc:0.80,aov:55},
-    SD:{ctr:0.18,cvr:10.0,cpc:0.76,aov:50},
-  },
-  electronics:{
-    SP:{ctr:0.30,cvr:6.5,cpc:1.10,aov:120},
-    SB:{ctr:0.33,cvr:5.0,cpc:1.20,aov:140},
-    SD:{ctr:0.15,cvr:6.0,cpc:1.00,aov:130},
-  },
-  grocery:{
-    SP:{ctr:0.42,cvr:13.0,cpc:0.55,aov:24},
-    SB:{ctr:0.45,cvr:9.0,cpc:0.62,aov:26},
-    SD:{ctr:0.23,cvr:11.5,cpc:0.58,aov:25},
-  }
+  default:{SP:{ctr:0.37,cvr:10,cpc:0.69,aov:36.43},SB:{ctr:0.40,cvr:6.9,cpc:0.78,aov:49.15},SD:{ctr:0.19,cvr:10.4,cpc:0.75,aov:51.56}},
+  pet:{SP:{ctr:0.40,cvr:10.5,cpc:0.65,aov:32},SB:{ctr:0.42,cvr:7.5,cpc:0.72,aov:38},SD:{ctr:0.20,cvr:10.8,cpc:0.70,aov:34}},
+  beauty:{SP:{ctr:0.45,cvr:9.0,cpc:0.85,aov:28},SB:{ctr:0.48,cvr:7.2,cpc:0.95,aov:32},SD:{ctr:0.22,cvr:8.8,cpc:0.80,aov:30}},
+  home:{SP:{ctr:0.35,cvr:11.0,cpc:0.70,aov:42},SB:{ctr:0.38,cvr:7.0,cpc:0.80,aov:55},SD:{ctr:0.18,cvr:10.0,cpc:0.76,aov:50}},
+  electronics:{SP:{ctr:0.30,cvr:6.5,cpc:1.10,aov:120},SB:{ctr:0.33,cvr:5.0,cpc:1.20,aov:140},SD:{ctr:0.15,cvr:6.0,cpc:1.00,aov:130}},
+  grocery:{SP:{ctr:0.42,cvr:13.0,cpc:0.55,aov:24},SB:{ctr:0.45,cvr:9.0,cpc:0.62,aov:26},SD:{ctr:0.23,cvr:11.5,cpc:0.58,aov:25}}
 };
-
 function applyCategory(){
-  const cat = document.getElementById('category').value;
-  const set = CATEGORY[cat] || CATEGORY.default;
-  // update inputs
-  document.getElementById('spCTR').value = set.SP.ctr;
-  document.getElementById('spCVR').value = set.SP.cvr;
-  document.getElementById('spCPC').value = set.SP.cpc;
-  document.getElementById('spAOV').value = set.SP.aov;
-
-  document.getElementById('sbCTR').value = set.SB.ctr;
-  document.getElementById('sbCVR').value = set.SB.cvr;
-  document.getElementById('sbCPC').value = set.SB.cpc;
-  document.getElementById('sbAOV').value = set.SB.aov;
-
-  document.getElementById('sdCTR').value = set.SD.ctr;
-  document.getElementById('sdCVR').value = set.SD.cvr;
-  document.getElementById('sdCPC').value = set.SD.cpc;
-  document.getElementById('sdAOV').value = set.SD.aov;
+  const c = CATEGORY[document.getElementById('category').value] || CATEGORY.default;
+  document.getElementById('spCTR').value=c.SP.ctr; document.getElementById('spCVR').value=c.SP.cvr; document.getElementById('spCPC').value=c.SP.cpc; document.getElementById('spAOV').value=c.SP.aov;
+  document.getElementById('sbCTR').value=c.SB.ctr; document.getElementById('sbCVR').value=c.SB.cvr; document.getElementById('sbCPC').value=c.SB.cpc; document.getElementById('sbAOV').value=c.SB.aov;
+  document.getElementById('sdCTR').value=c.SD.ctr; document.getElementById('sdCVR').value=c.SD.cvr; document.getElementById('sdCPC').value=c.SD.cpc; document.getElementById('sdAOV').value=c.SD.aov;
 }
 applyCategory();
 
-/* ---------- Allocation sliders (sum=100, responsive) ---------- */
 function updateLabels(){
-  document.getElementById('spPctLbl').textContent = document.getElementById('spPct').value + '%';
-  document.getElementById('sbPctLbl').textContent = document.getElementById('sbPct').value + '%';
-  document.getElementById('sdPctLbl').textContent = document.getElementById('sdPct').value + '%';
+  spPctLbl.textContent = spPct.value + '%';
+  sbPctLbl.textContent = sbPct.value + '%';
+  sdPctLbl.textContent = sdPct.value + '%';
 }
 function onSliderChange(changed){
-  const sp = document.getElementById('spPct');
-  const sb = document.getElementById('sbPct');
-  const sd = document.getElementById('sdPct');
-
-  let vSP = +sp.value, vSB = +sb.value, vSD = +sd.value;
-  const total = vSP + vSB + vSD;
-
+  const sp = spPct, sb = sbPct, sd = sdPct;
+  let vSP=+sp.value, vSB=+sb.value, vSD=+sd.value;
+  const total = vSP+vSB+vSD;
   if(total>100){
-    // reduce the others proportionally to keep sum=100
-    let others, o1, o2;
-    if(changed==='SP'){ o1='SB'; o2='SD'; others=vSB+vSD; }
-    if(changed==='SB'){ o1='SP'; o2='SD'; others=vSP+vSD; }
-    if(changed==='SD'){ o1='SP'; o2='SB'; others=vSP+vSB; }
-    if(others<=0){
-      // split the remainder evenly
-      const rem = 100 - (changed==='SP'? vSP : changed==='SB'? vSB : vSD);
-      if(changed==='SP'){ vSB = rem/2; vSD = rem/2; }
-      if(changed==='SB'){ vSP = rem/2; vSD = rem/2; }
-      if(changed==='SD'){ vSP = rem/2; vSB = rem/2; }
-    }else{
-      const over = total - 100;
-      // reduce the two others proportionally
-      if(changed==='SP'){
-        const f = over/others;
-        vSB -= vSB*f; vSD -= vSD*f;
-      }else if(changed==='SB'){
-        const f = over/others;
-        vSP -= vSP*f; vSD -= vSD*f;
-      }else{
-        const f = over/others;
-        vSP -= vSP*f; vSB -= vSB*f;
-      }
-    }
-    // write back
-    sp.value = Math.max(0, Math.round(vSP));
-    sb.value = Math.max(0, Math.round(vSB));
-    sd.value = Math.max(0, Math.round(vSD));
+    let others, over=total-100;
+    if(changed==='SP'){ others=vSB+vSD; if(others>0){ vSB -= vSB/others*over; vSD -= vSD/others*over; } else { vSB=vSD=(100-vSP)/2; } }
+    if(changed==='SB'){ others=vSP+vSD; if(others>0){ vSP -= vSP/others*over; vSD -= vSD/others*over; } else { vSP=vSD=(100-vSB)/2; } }
+    if(changed==='SD'){ others=vSP+vSB; if(others>0){ vSP -= vSP/others*over; vSB -= vSB/others*over; } else { vSP=vSB=(100-vSD)/2; } }
+    sp.value=Math.max(0,Math.round(vSP)); sb.value=Math.max(0,Math.round(vSB)); sd.value=Math.max(0,Math.round(vSD));
   }
   updateLabels();
 }
+const spPct=document.getElementById('spPct'), sbPct=document.getElementById('sbPct'), sdPct=document.getElementById('sdPct');
+const spPctLbl=document.getElementById('spPctLbl'), sbPctLbl=document.getElementById('sbPctLbl'), sdPctLbl=document.getElementById('sdPctLbl');
 updateLabels();
 
-/* ---------- Helpers ---------- */
 function fmtd(n){return isFinite(n)? n.toLocaleString(undefined,{maximumFractionDigits:0}) : '–'}
 function fmtm(n){return isFinite(n)? '$'+n.toLocaleString(undefined,{maximumFractionDigits:0}) : '–'}
 function fmtp(n){return isFinite(n)? (n*100).toFixed(1)+'%' : '–'}
-
-/* ---------- Simulation ---------- */
-function n(id){ return parseFloat(document.getElementById(id).value||'0') }
+function nval(id){ return parseFloat(document.getElementById(id).value||'0') }
 
 function calc(spend, cvrPct, cpc, aov){
   const clicks = spend>0 && cpc>0 ? spend/cpc : 0;
   const orders = clicks * (cvrPct/100);
   const sales  = orders * aov;
-  const acos   = sales>0 ? spend/sales : NaN;         // spend / ad sales
-  const roas   = spend>0 ? sales/spend : NaN;         // ad sales / spend
+  const acos   = sales>0 ? spend/sales : NaN;
+  const roas   = spend>0 ? sales/spend : NaN;
   return {clicks, orders, sales, acos, roas};
 }
 
 function simulate(){
-  const rev   = n('rev');
-  const spend = n('spend');
-  if(!(rev>0 && spend>0)){
-    document.getElementById('results').innerHTML = '<span class="warn">Add revenue and spend first.</span>';
-    return;
-  }
+  const rev=nval('rev'), spend=nval('spend');
+  if(!(rev>0 && spend>0)){ results.innerHTML='<span style="color:#b00020">Add revenue and spend first.</span>'; return; }
 
-  const spPct = n('spPct')/100, sbPct = n('sbPct')/100, sdPct = n('sdPct')/100;
-  const spends = { SP: spend*spPct, SB: spend*sbPct, SD: spend*sdPct };
+  const spends={ SP: spend*(spPct.value/100), SB: spend*(sbPct.value/100), SD: spend*(sdPct.value/100) };
+  const b={ SP:{cvr:nval('spCVR'), cpc:nval('spCPC'), aov:nval('spAOV')},
+            SB:{cvr:nval('sbCVR'), cpc:nval('sbCPC'), aov:nval('sbAOV')},
+            SD:{cvr:nval('sdCVR'), cpc:nval('sdCPC'), aov:nval('sdAOV')} };
 
-  // read benchmarks
-  const b = {
-    SP:{ctr:n('spCTR'), cvr:n('spCVR'), cpc:n('spCPC'), aov:n('spAOV')},
-    SB:{ctr:n('sbCTR'), cvr:n('sbCVR'), cpc:n('sbCPC'), aov:n('sbAOV')},
-    SD:{ctr:n('sdCTR'), cvr:n('sdCVR'), cpc:n('sdCPC'), aov:n('sdAOV')}
-  };
+  const rSP=calc(spends.SP,b.SP.cvr,b.SP.cpc,b.SP.aov);
+  const rSB=calc(spends.SB,b.SB.cvr,b.SB.cpc,b.SB.aov);
+  const rSD=calc(spends.SD,b.SD.cvr,b.SD.cpc,b.SD.aov);
 
-  const rSP = calc(spends.SP, b.SP.cvr, b.SP.cpc, b.SP.aov);
-  const rSB = calc(spends.SB, b.SB.cvr, b.SB.cpc, b.SB.aov);
-  const rSD = calc(spends.SD, b.SD.cvr, b.SD.cpc, b.SD.aov);
+  const adSales=rSP.sales+rSB.sales+rSD.sales;
+  const ACOS= adSales>0 ? spend/adSales : NaN;
+  const ROAS= spend>0 ? adSales/spend : NaN;
+  const TACOS= rev>0 ? spend/rev : NaN;
 
-  const adSales = rSP.sales + rSB.sales + rSD.sales;
-  const ACOS    = adSales>0 ? spend/adSales : NaN;   // overall
-  const ROAS    = spend>0 ? adSales/spend : NaN;
-  const TACOS   = rev>0 ? spend/rev : NaN;
-
-  // Results table with tooltips on all headers and row labels
-  const html = `
+  results.innerHTML = `
   <table>
     <thead>
       <tr>
         <th><span class="tip"><span class="icon">?</span><span class="tipbox"><b>Ad Type</b>: SP / SB / SD placements.</span></span> Ad Type</th>
         <th><span class="tip"><span class="icon">?</span><span class="tipbox"><b>Spend</b>: Simulated monthly budget for the ad type.</span></span> Spend</th>
-        <th><span class="tip"><span class="icon">?</span><span class="tipbox"><b>Clicks</b>: Spend ÷ CPC.</span></span> Clicks</th>
-        <th><span class="tip"><span class="icon">?</span><span class="tipbox"><b>Orders</b>: Clicks × CVR.</span></span> Orders</th>
-        <th><span class="tip"><span class="icon">?</span><span class="tipbox"><b>Sales</b>: Orders × AOV (ad-attributed sales).</span></span> Sales</th>
-        <th><span class="tip"><span class="icon">?</span><span class="tipbox"><b>ROAS</b> = Sales ÷ Spend. Higher is better.</span></span> ROAS</th>
-        <th><span class="tip"><span class="icon">?</span><span class="tipbox"><b>ACOS</b> = Spend ÷ Sales. Lower is better.</span></span> ACOS</th>
-        <th><span class="tip"><span class="icon">?</span><span class="tipbox"><b>TACOS</b> = Spend ÷ Total Revenue (overall; same for all rows).</span></span> TACOS</th>
+        <th><span class="tip"><span class="icon">?</span><span class="tipbox"><b>Clicks</b> = Spend ÷ CPC.</span></span> Clicks</th>
+        <th><span class="tip"><span class="icon">?</span><span class="tipbox"><b>Orders</b> = Clicks × CVR.</span></span> Orders</th>
+        <th><span class="tip"><span class="icon">?</span><span class="tipbox"><b>Sales</b> = Orders × AOV (ad-attributed sales).</span></span> Sales</th>
+        <th><span class="tip"><span class="icon">?</span><span class="tipbox"><b>ROAS</b> = Sales ÷ Spend. Higher = better.</span></span> ROAS</th>
+        <th><span class="tip"><span class="icon">?</span><span class="tipbox"><b>ACOS</b> = Spend ÷ Sales. Lower = better.</span></span> ACOS</th>
+        <th><span class="tip"><span class="icon">?</span><span class="tipbox"><b>TACOS</b> = Spend ÷ Total Revenue (overall metric).</span></span> TACOS</th>
       </tr>
     </thead>
     <tbody>
-      ${row('Sponsored Products','SP',spends.SP,rSP,TACOS)}
-      ${row('Sponsored Brands','SB',spends.SB,rSB,TACOS)}
-      ${row('Sponsored Display','SD',spends.SD,rSD,TACOS)}
+      ${row('Sponsored Products',spends.SP,rSP,TACOS)}
+      ${row('Sponsored Brands',spends.SB,rSB,TACOS)}
+      ${row('Sponsored Display',spends.SD,rSD,TACOS)}
       <tr>
         <th><span class="tip"><span class="icon">?</span><span class="tipbox"><b>Total</b> across all ad types.</span></span> Total</th>
         <th>${fmtm(spend)}</th>
-        <th>${fmtd(rSP.clicks + rSB.clicks + rSD.clicks)}</th>
-        <th>${fmtd(rSP.orders + rSB.orders + rSD.orders)}</th>
+        <th>${fmtd(rSP.clicks+rSB.clicks+rSD.clicks)}</th>
+        <th>${fmtd(rSP.orders+rSB.orders+rSD.orders)}</th>
         <th>${fmtm(adSales)}</th>
         <th>${fmtp(ROAS)}</th>
         <th>${fmtp(ACOS)}</th>
         <th>${fmtp(TACOS)}</th>
       </tr>
     </tbody>
-  </table>
-  <p class="info">All values are <b>estimates</b> using the benchmarks above. Adjust the category or benchmarks to fit your niche.</p>
-  `;
-  document.getElementById('results').innerHTML = html;
+  </table>`;
 }
 
-function row(label,key,spend,res,tacos){
+function row(label,spend,res,tacos){
   return `
   <tr>
-    <td><span class="tip"><span class="icon">?</span><span class="tipbox">${label}: brief overview of its role in the mix.</span></span> ${label}</td>
+    <td><span class="tip"><span class="icon">?</span><span class="tipbox">${label}: role in your mix.</span></span> ${label}</td>
     <td>${fmtm(spend)}</td>
     <td>${fmtd(res.clicks)}</td>
     <td>${fmtd(res.orders)}</td>
